@@ -1,13 +1,20 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+//components
+import NavBar from "./components/NavBar";
+import HomeScreen from "./screens/HomeScreen";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello Boubrine</p>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <NavBar />
+        <Switch>
+          <Route to="/" component={HomeScreen} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
