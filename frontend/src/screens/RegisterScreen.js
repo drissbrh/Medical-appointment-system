@@ -13,7 +13,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [speciality, setSpeciality] = useState("");
   const [toggle, setToggle] = useState(false);
 
@@ -39,7 +39,14 @@ const RegisterScreen = () => {
       dispatch(registerUserPatient(name, email, password));
     } else {
       dispatch(
-        registerUserDoctor(name, email, password, address, phone, speciality)
+        registerUserDoctor(
+          name,
+          email,
+          password,
+          address,
+          phoneNumber,
+          speciality
+        )
       );
     }
   };
@@ -127,10 +134,11 @@ const RegisterScreen = () => {
               <input
                 type="name"
                 placeholder="Enter your phone number"
-                value={phone}
+                value={phoneNumber}
                 onChange={(e) => {
-                  setPhone(e.target.value);
+                  setPhoneNumber(e.target.value);
                 }}
+                maxLength="10"
               />
             </div>
             <div className="username__section1">

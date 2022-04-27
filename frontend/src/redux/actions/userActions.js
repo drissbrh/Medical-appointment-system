@@ -88,7 +88,8 @@ export const registerUserPatient =
   };
 
 export const registerUserDoctor =
-  (name, email, password, address, phone, speciality) => async (dispatch) => {
+  (name, email, password, address, phoneNumber, speciality) =>
+  async (dispatch) => {
     try {
       dispatch({
         type: USER_REGISTER_REQUEST,
@@ -102,7 +103,15 @@ export const registerUserDoctor =
 
       const { data } = await axios.post(
         "api/v1/users/",
-        { name, email, password, address, phone, speciality, isDoctor: true },
+        {
+          name,
+          email,
+          password,
+          address,
+          phoneNumber,
+          speciality,
+          isDoctor: true,
+        },
         config
       );
 
