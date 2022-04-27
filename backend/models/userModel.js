@@ -21,6 +21,16 @@ const userSchema = mongoose.Schema(
       required: true,
       default: " ",
     },
+    address: {
+      type: String,
+      required: true,
+      default: " ",
+    },
+    speciality: {
+      type: String,
+      required: true,
+      default: " ",
+    },
     isAdmin: {
       type: Boolean,
       required: true,
@@ -34,7 +44,7 @@ const userSchema = mongoose.Schema(
     isPatient: {
       type: Boolean,
       required: true,
-      default: true,
+      default: false,
     },
   },
   { timestamps: true }
