@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  registerUserPatient,
-  registerUserDoctor,
-} from "../redux/actions/userActions";
+import { registerUserPatient } from "../redux/actions/userActions";
+import { registerUserDoctor } from "../redux/actions/doctorActions";
 import "./RegisterScreen.css";
 
 const RegisterScreen = () => {
@@ -13,6 +11,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [speciality, setSpeciality] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -35,7 +34,7 @@ const RegisterScreen = () => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!toggle) {
+    if (toggle) {
       dispatch(registerUserPatient(name, email, password));
     } else {
       dispatch(
@@ -44,6 +43,7 @@ const RegisterScreen = () => {
           email,
           password,
           address,
+          city,
           phoneNumber,
           speciality
         )
@@ -116,7 +116,7 @@ const RegisterScreen = () => {
             }}
           />
         </div>
-        {toggle ? (
+        {toggle && (
           <>
             <div className="username__section1">
               <label>Address</label>
@@ -126,6 +126,17 @@ const RegisterScreen = () => {
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
+                }}
+              />
+            </div>
+            <div className="username__section1">
+              <label>city</label>
+              <input
+                type="name"
+                placeholder="Add your city"
+                value={city}
+                onChange={(e) => {
+                  setCity(e.target.value);
                 }}
               />
             </div>
@@ -157,8 +168,6 @@ const RegisterScreen = () => {
               </select>
             </div>
           </>
-        ) : (
-          <></>
         )}
         <p className="register__link">
           Already have an account ?{"  "}

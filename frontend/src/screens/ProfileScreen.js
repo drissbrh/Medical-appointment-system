@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./ProfileScreen.css";
-import doctor from "../doctor.jpg";
+import doctor from "../assets/doctor.jpg";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");

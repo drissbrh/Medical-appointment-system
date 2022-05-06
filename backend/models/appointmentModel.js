@@ -1,31 +1,26 @@
 import mongoose from "mongoose";
 
-const appointmentSchema = new mongoose.Schema(
+const appointmentSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
+    doctor: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Doctor",
     },
-    email: {
-      type: String,
+    startingHour: {
+      type: Number,
       required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-    },
-    isAdmin: {
-      type: String,
-      required: true,
-      default: false,
     },
   },
   { timestamps: true }
 );
 
-const Appointment = mongoose.model("User", appointmentSchema);
+const Appointment = mongoose.model("Appointment", appointmentSchema);
 
 export default Appointment;
+
+/*patient: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Patient",
+    },*/

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./LoginScreen.css";
-import { loginUser } from "../redux/actions/userActions";
+import { loginPatient } from "../redux/actions/patientActions";
 
 const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -23,7 +23,7 @@ const LoginScreen = ({ history }) => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser(email, password));
+    dispatch(loginPatient(email, password));
   };
 
   return (

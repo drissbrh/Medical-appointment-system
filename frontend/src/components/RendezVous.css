@@ -1,0 +1,31 @@
+.appoint__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > input {
+  padding: 5px;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+}
+.hours__inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.hours__inputs > input {
+  cursor: pointer;
+}
+.morning {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}

@@ -4,8 +4,11 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 import path from "path";
 import userRouter from "./routes/userRoutes.js";
+import doctorRouter from "./routes/doctorRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import appointmentRouter from "./routes/appointmentRoutes.js";
+import patientRouter from "./routes/patientRoutes.js";
 
 dotenv.config({});
 connectDB();
@@ -14,6 +17,9 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/doctors", doctorRouter);
+app.use("/api/v1/appts/", appointmentRouter);
+app.use("/api/v1/patients", patientRouter);
 
 const __dirname = path.resolve();
 

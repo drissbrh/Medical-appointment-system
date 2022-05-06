@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
+const doctorSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,7 +16,23 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    isAdmin: {
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    speciality: {
+      type: String,
+      required: true,
+    },
+    isDoctor: {
       type: Boolean,
       required: true,
       default: true,
@@ -25,11 +41,11 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
+doctorSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.pre("save", async function (next) {
+doctorSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
@@ -37,6 +53,6 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-const User = mongoose.model("User", userSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema);
 
-export default User;
+export default Doctor;

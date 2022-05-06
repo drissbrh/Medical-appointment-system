@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -88,7 +91,7 @@ export const registerUserPatient =
   };
 
 export const registerUserDoctor =
-  (name, email, password, address, phoneNumber, speciality) =>
+  (name, email, password, address, city, phoneNumber, speciality) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -108,6 +111,7 @@ export const registerUserDoctor =
           email,
           password,
           address,
+          city,
           phoneNumber,
           speciality,
           isDoctor: true,
@@ -131,3 +135,40 @@ export const registerUserDoctor =
       });
     }
   };
+
+export const listUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/v1/users`, config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
