@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./ProfileScreen.css";
-import doctor from "../assets/doctor.jpg";
+import patientPic from "../assets/patient.png";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -32,7 +32,7 @@ const ProfileScreen = () => {
             {
               <>
                 <div className="profile__details">
-                  <img src={doctor} />
+                  <img src={patientPic} />
                   <p>{userInfo.name.split(" ")[0].toUpperCase()}</p>
                 </div>
                 <>

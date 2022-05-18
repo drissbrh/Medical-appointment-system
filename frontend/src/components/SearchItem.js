@@ -32,7 +32,7 @@ const SearchItem = ({ name, city, phone, address, spec, identity }) => {
           </div>
 
           <button>
-            <Link to={`/appointment/${identity}`}>See Availability</Link>
+            <Link to={`/doctor/${identity}`}>See Availability</Link>
           </button>
         </div>
       </div>

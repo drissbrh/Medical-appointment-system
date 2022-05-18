@@ -10,32 +10,34 @@ import {
   DOCTOR_DETAILS_REQUEST,
   DOCTOR_DETAILS_SUCCESS,
   DOCTOR_DETAILS_FAIL,
+  DOCTOR_LOGIN_REQUEST,
+  DOCTOR_LOGIN_SUCCESS,
+  DOCTOR_LOGIN_FAIL,
 } from "../constants/doctorConstants";
 
-/*
-  export const userLoginReducer = (state = {}, action) => {
-    switch (action.type) {
-      case USER_LOGIN_REQUEST:
-        return { loading: true };
-      case USER_LOGIN_SUCCESS:
-        return { loading: false, userInfo: action.payload };
-      case USER_LOGIN_FAIL:
-        return { loading: false, error: action.payload };
-      case USER_LOGOUT:
-        return {};
-      default:
-        return state;
-    }
-  };
-  */
+export const doctorLoginReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DOCTOR_LOGIN_REQUEST:
+      return { docLoading: true };
+    case DOCTOR_LOGIN_SUCCESS:
+      return { docLoading: false, userInfo: action.payload };
+    case DOCTOR_LOGIN_FAIL:
+      return { docLoading: false, docError: action.payload };
+    case DOCTOR_LOGOUT:
+      return {};
+    default:
+      return state;
+  }
+};
+
 export const DoctorRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case DOCTOR_REGISTER_REQUEST:
-      return { loading: true };
+      return { docLoading: true };
     case DOCTOR_REGISTER_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { docLoading: false, userInfo: action.payload };
     case DOCTOR_REGISTER_FAIL:
-      return { loading: false, error: action.payload };
+      return { docLoading: false, docError: action.payload };
     case DOCTOR_LOGOUT:
       return {};
     default:

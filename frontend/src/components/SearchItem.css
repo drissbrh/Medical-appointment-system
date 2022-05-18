@@ -5,10 +5,8 @@
   box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   margin-bottom: 2rem;
-
   display: flex;
-
-  transition: 00.3s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 .searchitem > img {
@@ -80,4 +78,25 @@
 .doc__available > button:hover {
   color: #023047;
   background-color: transparent;
+}
+
+@media (max-width: 750px) {
+  .searchitem {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    width: 400px;
+    height: 500px;
+  }
+  .doc__infos {
+    padding: 0rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .searchitem > img {
+    height: 200px;
+    width: 400px;
+    object-fit: cover;
+    border-radius: 15px 15px 0px 0px;
+  }
 }

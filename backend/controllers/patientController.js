@@ -24,4 +24,18 @@ const authPatient = asyncHandler(async (req, res) => {
   }
 });
 
-export { authPatient };
+// @desc    Get user by ID
+// @route   GET /api/v1/patients/:id
+// @access  Private/Admin
+const getPatientById = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.params.id).select("-password");
+
+  if (patient) {
+    res.json(patient);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+export { authPatient, getPatientById };

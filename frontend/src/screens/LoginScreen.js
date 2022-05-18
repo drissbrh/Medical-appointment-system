@@ -4,16 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "./LoginScreen.css";
 import { loginPatient } from "../redux/actions/patientActions";
+import { loginDoctor } from "../redux/actions/doctorActions";
 
-const LoginScreen = ({ history }) => {
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo, loading, error } = userLogin;
   const location = useLocation();
   const navigate = useNavigate();
-  const redirect = location.search ? location.split("=")[1] : "/";
+
+  const patientLogin = useSelector((state) => state.patientLogin);
+  const { patLoading, patError } = patientLogin;
+
+  //
+  const doctorLogin = useSelector((state) => state.doctorLogin);
+  const { userInfo, docLoading, docError } = doctorLogin;
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (userInfo) {
@@ -23,14 +30,15 @@ const LoginScreen = ({ history }) => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginPatient(email, password));
+    dispatch(loginPatient(email, password)) &&
+      dispatch(loginDoctor(email, password));
   };
 
   return (
     <div className="loginscreen">
       <h1 className="login__header">Sign In</h1>
-      {error && <p className="signIn__error">{error}</p>}
-      {loading && <h5 className="spinner2"></h5>}
+      {(docError || patError) && <p className="signIn__error">{docError}</p>}
+      {(docLoading || patLoading) && <h5 className="spinner2"></h5>}
       <form onSubmit={handleSubmit} className="form__elements">
         <div className="username__section">
           <label>Email</label>

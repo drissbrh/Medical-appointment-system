@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //components
 import NavBar from "./components/NavBar";
@@ -21,6 +16,7 @@ import Backdrop from "./components/Backdrop";
 import SideDrawer from "./components/SideDrawer";
 import SearchScreen from "./screens/SearchScreen";
 import AppointmentScreen from "./screens/AppointmentScreen";
+import SuccessScreen from "./screens/SuccessScreen";
 
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
@@ -37,7 +33,8 @@ function App() {
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/search/" element={<SearchScreen />} />
-          <Route path="/appointment/:id" element={<AppointmentScreen />} />
+          <Route path="/doctor/:id" element={<AppointmentScreen />} />
+          <Route path="/appointment/:id" element={<SuccessScreen />} />
         </Routes>
       </div>
     </Router>

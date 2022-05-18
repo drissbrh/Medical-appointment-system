@@ -12,7 +12,45 @@ import {
   DOCTOR_DETAILS_SUCCESS,
   DOCTOR_DETAILS_FAIL,
   DOCTOR_DETAILS_RESET,
+  DOCTOR_LOGIN_REQUEST,
+  DOCTOR_LOGIN_SUCCESS,
+  DOCTOR_LOGIN_FAIL,
 } from "../constants/doctorConstants";
+
+export const loginDoctor = (email, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DOCTOR_LOGIN_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      "api/v1/doctors/login",
+      { email, password },
+      config
+    );
+
+    dispatch({
+      type: DOCTOR_LOGIN_SUCCESS,
+      payload: data,
+    });
+
+    localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: DOCTOR_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const registerUserDoctor =
   (name, email, password, address, city, phoneNumber, speciality) =>

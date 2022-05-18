@@ -9,13 +9,13 @@ const DoctorCard = ({ name, city, address, phone, spec }) => {
       <div className="card__left">
         <img src={doctor_page} alt="doctor_image" />
         <h2>{name}</h2>
-        <Rating value={5} />
+        <Rating value={4.6} />
       </div>
       <div className="card__right">
-        <div className="info__section">
+        {/* <div className="info__section">
           <h2>About this doctor</h2>
           <p></p>
-        </div>
+        </div> */}
         <div className="info__section">
           <h2>Speciality</h2>
           <p>{spec}</p>
@@ -26,7 +26,7 @@ const DoctorCard = ({ name, city, address, phone, spec }) => {
         </div>
         <div className="info__section">
           <h2>Address</h2>
-          <p>{city}</p>
+          <p>{address}</p>
         </div>
         <div className="info__section">
           <h2>Phone Number</h2>

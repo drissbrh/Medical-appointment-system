@@ -70,3 +70,11 @@
   padding-bottom: 2rem;
   margin-bottom: 2rem;
 }
+
+@media (max-width: 1000px) {
+  .inside__searchscreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

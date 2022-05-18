@@ -9,20 +9,30 @@ import {
 import {
   doctorDetailReducer,
   DoctorListReducer,
+  doctorLoginReducer,
   DoctorRegisterReducer,
 } from "./reducers/DoctorReducer";
-import { apptCreateReducer } from "./reducers/appointmentReducer";
-import { patientLoginReducer } from "./reducers/patientReducer";
+import {
+  apptCreateReducer,
+  apptDetailsReducer,
+} from "./reducers/appointmentReducer";
+import {
+  patientDetailReducer,
+  patientLoginReducer,
+} from "./reducers/patientReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
+  doctorLogin: doctorLoginReducer,
   patientLogin: patientLoginReducer,
   userRegister: userRegisterReducer,
   userList: userListReducer,
   doctorList: DoctorListReducer,
   doctorRegister: DoctorRegisterReducer,
   doctorDetails: doctorDetailReducer,
+  patientDetails: patientDetailReducer,
   appointmentCreate: apptCreateReducer,
+  appointmentDetails: apptDetailsReducer,
 });
 
 const middleware = [thunk];
@@ -32,6 +42,7 @@ const userInfofromLocalStorage = localStorage.getItem("UserMedicalInfo")
   : null;
 const initialeState = {
   userLogin: { userInfo: userInfofromLocalStorage },
+  patientLogin: { userInfo: userInfofromLocalStorage },
 };
 
 const store = createStore(

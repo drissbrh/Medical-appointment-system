@@ -1,10 +1,10 @@
 import React from "react";
 import "./RendezVous.css";
 
-const RendezVous = () => {
+const RendezVous = ({ click }) => {
   return (
     <div className="appoint__inputs">
-      <input type="date" />
+      <input type="date" onChange={click} />
       <div>
         <span className="morning">
           <p>Morning</p>

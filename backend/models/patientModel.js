@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const patientSchema = mongoose.Schema(
+const patientSchema = new Schema(
   {
     name: {
       type: String,
@@ -24,7 +25,14 @@ const patientSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
+/*
+appointment: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Appointment",
+      },
+    ],
+     */
 patientSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

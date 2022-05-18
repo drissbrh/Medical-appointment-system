@@ -88,7 +88,10 @@ const getDoctorProfile = asyncHandler(async (req, res) => {
       _id: doctor._id,
       name: doctor.name,
       email: doctor.email,
-      isAdmin: doctor.isAdmin,
+      city: doctor.city,
+      address: doctor.address,
+      phoneNumber: doctor.phoneNumber,
+      isDoctor: doctor.isDoctor,
     });
   } else {
     res.status(404);
