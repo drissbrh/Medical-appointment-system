@@ -6,16 +6,19 @@ import Appointment from "../models/appointmentModel.js";
 // @access  Private
 const addAppointment = asyncHandler(async (req, res) => {
   const { startingHour, bookingDate, patient, doctor } = req.body;
-
-  if (startingHour === 0) {
+  const appointmentExists = await Appointment.findOne({
+    bookingDate: req.body.bookingDate,
+    startingHour: req.body.startingHour,
+  });
+  if (appointmentExists) {
     res.status(301);
-    throw new Error("No appointment made");
-    //return;
+    throw new Error("appointment already taken");
+    return;
   } else {
     const appointment = new Appointment({
       patient,
-      startingHour,
       doctor,
+      startingHour,
       bookingDate,
     });
 
@@ -26,7 +29,7 @@ const addAppointment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get Appointment by ID
-// @route   GET /api/v1/appointments/:id
+// @route   GET /api/v1/appts/:id
 // @access  Private
 const getAppointmentById = asyncHandler(async (req, res) => {
   const appointment = await Appointment.findById(req.params.id);
@@ -42,32 +45,56 @@ const getAppointmentById = asyncHandler(async (req, res) => {
 // @desc    Update appointment to paid
 // @route   GET /api/appointments/:id/pay
 // @access  Private
-const updateAppointmentToPaid = asyncHandler(async (req, res) => {
+const updateAppointment = asyncHandler(async (req, res) => {
   const appointment = await Appointment.findById(req.params.id);
 
   if (appointment) {
-    appointment = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
-    };
+    appointment.bookingDate = req.body.bookingDate;
+    appointment.startingHour = req.body.startingHour;
 
-    const updatedappointment = await appointment.save();
+    const updatedAppointment = await appointment.save();
 
-    res.json(updatedappointment);
+    res.json(updatedAppointment);
   } else {
     res.status(404);
     throw new Error("appointment not found");
   }
 });
 
-// @desc    Get logged in user Appointments
-// @route   GET /api/Appointments/myappointments
+// @desc    Get logged in Patient Appointments
+// @route   GET /api/v1/appts/myappts
 // @access  Private
-const getMyAppointments = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({ user: req.user._id });
+const getMyApptsAsPatient = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({ patient: req.params.patient });
   res.json(appointments);
 });
 
-export { addAppointment, getAppointmentById, getMyAppointments };
+// @desc    Get logged in Patient Appointments
+// @route   GET /api/v1/appts/myappts
+// @access  Private
+const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({ doctor: req.params.doctor });
+  res.json(appointments);
+});
+
+// @desc    Get All appointments
+// @route   GET /api/v1/appointments
+// @access  Private/Admin
+const getAllAppointments = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({});
+
+  if (appointments) {
+    res.json(appointments);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+export {
+  addAppointment,
+  updateAppointment,
+  getAppointmentById,
+  getMyApptsAsPatient,
+  getMyApptsAsDoctor,
+  getAllAppointments,
+};

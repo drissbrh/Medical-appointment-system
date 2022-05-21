@@ -1,12 +1,15 @@
 import express from "express";
 const patientRouter = express.Router();
-import { protect } from "../middleware/authMiddleware.js";
+import { admin, protect } from "../middleware/authMiddleware.js";
 import {
   authPatient,
+  getAllPatients,
   getPatientById,
 } from "../controllers/patientController.js";
 
 patientRouter.route("/login").post(authPatient);
 patientRouter.route("/:id").get(protect, getPatientById);
+patientRouter.route("/").get(protect, admin, getAllPatients);
+patientRouter.route("/").get(protect, admin, getAllPatients);
 
 export default patientRouter;

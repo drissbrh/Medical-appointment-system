@@ -100,16 +100,16 @@ const getDoctorProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update user profile
-// @route   PUT /api/users/profile
+// @route   PUT /api/v1/doctor/profile
 // @access  Private
 const updateDoctorProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const doctor = await Doctor.findById(req.doctor._id);
 
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
+  if (doctor) {
+    doctor.name = req.body.name || doctor.name;
+    doctor.email = req.body.email || doctor.email;
     if (req.body.password) {
-      user.password = req.body.password;
+      doctor.password = req.body.password;
     }
 
     const updatedUser = await user.save();
@@ -118,32 +118,9 @@ const updateDoctorProfile = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
+      isDoctor: updatedUser.isDoctor,
       token: generateToken(updatedUser._id),
     });
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
-
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
-const getDoctors = asyncHandler(async (req, res) => {
-  const doctors = await Doctor.find({});
-  res.json(doctors);
-});
-
-// @desc    Delete user
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
-const deleteDoctor = asyncHandler(async (req, res) => {
-  const doctor = await Doctor.findById(req.params.id);
-
-  if (Doctor) {
-    await Doctor.remove();
-    res.json({ message: "Doctor removed" });
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -189,13 +166,25 @@ const updateDoctor = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get All doctors
+// @route   GET /api/v1/doctors
+// @access  Private/Admin
+const getAllDoctors = asyncHandler(async (req, res) => {
+  const doctors = await Doctor.find({}).select("-password");
+
+  if (doctors) {
+    res.json(doctors);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
 export {
   authDoctor,
   registerDoctor,
-  getDoctorProfile,
   updateDoctorProfile,
-  getDoctors,
-  deleteDoctor,
+  getAllDoctors,
   getDoctorById,
   updateDoctor,
 };

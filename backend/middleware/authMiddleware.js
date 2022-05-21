@@ -39,4 +39,13 @@ const admin = (req, res, next) => {
   }
 };
 
-export { protect, admin };
+const patient = (req, res, next) => {
+  if (req.patient && req.patient.isPatient) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as a patient");
+  }
+};
+
+export { protect, admin, patient };

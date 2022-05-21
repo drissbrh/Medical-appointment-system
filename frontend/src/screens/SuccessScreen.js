@@ -68,12 +68,13 @@ const SuccessScreen = () => {
               <div className="appointmentDetails">
                 <div>
                   <p>
-                    <span>Starting Hour</span>: {appointment.startingHour}
+                    <span>Starting Hour</span>:{"  "}
+                    {appointment.startingHour}h00
                   </p>
                 </div>
                 <div>
                   <p>
-                    <span>Date</span>:{appointment.bookingDate}
+                    <span>Date</span>: {appointment.bookingDate}
                   </p>
                 </div>
               </div>

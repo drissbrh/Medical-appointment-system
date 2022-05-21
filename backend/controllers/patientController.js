@@ -38,4 +38,18 @@ const getPatientById = asyncHandler(async (req, res) => {
   }
 });
 
-export { authPatient, getPatientById };
+// @desc    Get All patients
+// @route   GET /api/v1/patients
+// @access  Private/Admin
+const getAllPatients = asyncHandler(async (req, res) => {
+  const patients = await Patient.find({}).select("-password");
+
+  if (patients) {
+    res.json(patients);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+export { authPatient, getPatientById, getAllPatients };

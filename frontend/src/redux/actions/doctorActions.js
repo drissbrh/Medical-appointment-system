@@ -98,23 +98,12 @@ export const registerUserDoctor =
     }
   };
 
-export const listDoctors = () => async (dispatch, getState) => {
+export const listDoctors = () => async (dispatch) => {
   try {
     dispatch({
       type: DOCTOR_LIST_REQUEST,
     });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/v1/doctors`, config);
+    const { data } = await axios.get(`/api/v1/doctors`);
 
     dispatch({
       type: DOCTOR_LIST_SUCCESS,

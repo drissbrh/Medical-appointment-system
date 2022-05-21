@@ -84,7 +84,7 @@
   font-weight: 500;
 }
 
-button {
+.modify__ {
   color: white;
   font-size: 17px;
   font-weight: 500;
@@ -97,7 +97,7 @@ button {
   transition: 0.2s ease-in-out;
 }
 
-button:hover {
+.modify__:hover {
   background-color: transparent;
   color: black;
 }
