@@ -13,6 +13,37 @@
   align-items: center;
   padding-bottom: 4rem;
 }
+.appoint__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > input {
+  padding: 5px;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+}
+.hours__inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.hours__inputs > input {
+  cursor: pointer;
+}
+.morning {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}
 
 .div__button {
   display: flex;
@@ -35,6 +66,14 @@
 .div__button > button:hover {
   background-color: transparent;
   color: black;
+}
+.appt__error {
+  color: #f4f4f4;
+  font-size: 15px;
+  background-color: red;
+  border-radius: 5px;
+  padding: 12px;
+  text-align: center;
 }
 @media (max-width: 800px) {
   .inside__form {

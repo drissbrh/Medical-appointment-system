@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { registerUserPatient } from "../redux/actions/userActions";
-import { registerUserDoctor } from "../redux/actions/doctorActions";
+import { registerPatient } from "../redux/actions/patientActions";
+import { registerDoctor } from "../redux/actions/doctorActions";
 import "./RegisterScreen.css";
 
 const RegisterScreen = () => {
@@ -20,25 +20,26 @@ const RegisterScreen = () => {
     toggle ? setToggle(false) : setToggle(true);
   };
   const dispatch = useDispatch();
-  const userRegister = useSelector((state) => state.userRegister);
-  const { userInfo, loading, error } = userRegister;
+  const doctorRegister = useSelector((state) => state.doctorRegister);
+  const patientRegister = useSelector((state) => state.patientRegister);
+
   const location = useLocation();
   const navigate = useNavigate();
   const redirect = location.search ? location.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userInfo) {
+    if (doctorRegister.userInfo || patientRegister.userInfo) {
       navigate(redirect);
     }
-  }, [navigate, userInfo, redirect]);
+  }, [navigate, doctorRegister.userInfo, patientRegister.userInfo, redirect]);
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (toggle) {
-      dispatch(registerUserPatient(name, email, password));
+    if (!toggle) {
+      dispatch(registerPatient(name, email, password));
     } else {
       dispatch(
-        registerUserDoctor(
+        registerDoctor(
           name,
           email,
           password,
@@ -54,8 +55,14 @@ const RegisterScreen = () => {
   return (
     <div className="registerscreen">
       <h1 className="register__header">Register</h1>
-      {error && <p className="signIn__error">{error}</p>}
-      {loading && <h5 className="spinner2"></h5>}
+      {(doctorRegister.error && (
+        <p className="signIn__error">{doctorRegister.error}</p>
+      )) ||
+        (patientRegister.error && (
+          <p className="signIn__error">{patientRegister.error}</p>
+        ))}
+      {(doctorRegister.loading && <div className="spinner2"></div>) ||
+        (patientRegister.loading && <div className="spinner2"></div>)}
       <form onSubmit={handleSubmit} className="form__elements1">
         <div className="switch__section">
           <div className="patient__doctor">

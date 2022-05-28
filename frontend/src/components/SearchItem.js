@@ -1,11 +1,17 @@
 import React from "react";
 import "./SearchItem.css";
 import doctor1 from "../assets/doctor_page.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-const SearchItem = ({ name, city, phone, address, spec, identity }) => {
+const SearchItem = ({ key1, name, city, phone, address, spec, identity }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const patientLogin = useSelector((state) => state.patientLogin);
+  const { userInfo } = patientLogin;
+
   return (
-    <div className="searchitem">
+    <div className="searchitem" key={key1}>
       <img src={doctor1} alt="doctor_image" />
       <div className="doc__infos">
         <div className="doc__name">
@@ -30,10 +36,11 @@ const SearchItem = ({ name, city, phone, address, spec, identity }) => {
             <i className="fa-solid fa-stethoscope"></i>
             <p>{spec}</p>
           </div>
-
-          <button>
-            <Link to={`/doctor/${identity}`}>See Availability</Link>
-          </button>
+          {userInfo.isPatient && (
+            <button>
+              <Link to={`/doctor/${identity}`}>See Availability</Link>
+            </button>
+          )}
         </div>
       </div>
     </div>

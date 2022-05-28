@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAppointmentDetails } from "../redux/actions/appointmentActions";
-import { useMatch, useNavigate, useParams } from "react-router-dom";
+import { Link, useMatch, useNavigate, useParams } from "react-router-dom";
 
 import doc1 from "../assets/doc1.jpg";
 import patientPic from "../assets/patient.png";
@@ -82,7 +82,9 @@ const SuccessScreen = () => {
           </>
         )}
         <button type="button" className="modify__">
-          Modify my appointment
+          <Link to={`/appointment/update/${appointment._id}`}>
+            Go Update my appointment
+          </Link>
         </button>
       </div>
     </div>

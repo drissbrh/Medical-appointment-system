@@ -5,11 +5,14 @@ import {
   authPatient,
   getAllPatients,
   getPatientById,
+  registerPatient,
 } from "../controllers/patientController.js";
 
 patientRouter.route("/login").post(authPatient);
 patientRouter.route("/:id").get(protect, getPatientById);
-patientRouter.route("/").get(protect, admin, getAllPatients);
-patientRouter.route("/").get(protect, admin, getAllPatients);
+patientRouter
+  .route("/")
+  .get(protect, admin, getAllPatients)
+  .post(registerPatient);
 
 export default patientRouter;

@@ -48,7 +48,7 @@
   gap: 15px;
 }
 .doctor__details > div > p > span {
-  font-weight: 500;
+  font-weight: 700;
 }
 .patient__details {
   padding: 0rem 2rem;
@@ -81,7 +81,7 @@
   font-size: 18px;
 }
 .appointmentDetails > div > p > span {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .modify__ {
@@ -92,7 +92,7 @@
   border-radius: 5px;
   border: 2px solid #219ebc;
   padding: 15px 25px;
-  width: 300px;
+  width: 250px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }

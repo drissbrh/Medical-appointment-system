@@ -15,7 +15,11 @@ const authDoctor = asyncHandler(async (req, res) => {
       _id: doctor._id,
       name: doctor.name,
       email: doctor.email,
-      isAdmin: doctor.isAdmin,
+      phoneNumber: doctor.phoneNumber,
+      city: doctor.city,
+      address: doctor.address,
+      speciality: doctor.speciality,
+      isDoctor: doctor.isDoctor,
       token: generateToken(doctor._id),
     });
   } else {
@@ -62,7 +66,6 @@ const registerDoctor = asyncHandler(async (req, res) => {
       _id: doctor._id,
       name: doctor.name,
       email: doctor.email,
-      isAdmin: doctor.isAdmin,
       phoneNumber: doctor.phoneNumber,
       city: doctor.city,
       isDoctor: doctor.isDoctor,
@@ -108,18 +111,22 @@ const updateDoctorProfile = asyncHandler(async (req, res) => {
   if (doctor) {
     doctor.name = req.body.name || doctor.name;
     doctor.email = req.body.email || doctor.email;
+    doctor.city = req.body.city || doctor.city;
+    doctor.address = req.body.address || doctor.address;
+    doctor.phoneNumber = req.body.phoneNumber || doctor.phoneNumber;
+    doctor.isDoctor;
     if (req.body.password) {
       doctor.password = req.body.password;
     }
 
-    const updatedUser = await user.save();
+    const updatedDoctor = await user.save();
 
     res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isDoctor: updatedUser.isDoctor,
-      token: generateToken(updatedUser._id),
+      _id: updatedDoctor._id,
+      name: updatedDoctor.name,
+      email: updatedDoctor.email,
+      isDoctor: updatedDoctor.isDoctor,
+      token: generateToken(updatedDoctor._id),
     });
   } else {
     res.status(404);

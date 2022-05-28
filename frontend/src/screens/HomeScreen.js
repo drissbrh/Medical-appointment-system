@@ -7,7 +7,8 @@ import doctor from "../assets/doctor.jpg";
 import search from "../assets/search.png";
 import bulb from "../assets/bulb.png";
 import schedule from "../assets/schedule.png";
-import doctorPng from "../assets/doctor.png";
+//import doctorPng from "../assets/doctor.png";
+import doctorPng from "../assets/medical-team.png";
 
 const HomeScreen = () => {
   const navigate = useNavigate();

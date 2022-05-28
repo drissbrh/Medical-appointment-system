@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import "./LoginScreen.css";
-import { loginPatient } from "../redux/actions/patientActions";
-import { loginDoctor } from "../redux/actions/doctorActions";
+import "./AdminLoginScreen.css";
+
+import { loginAdmin } from "../redux/actions/adminActions";
 
 const AdminLoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -13,12 +13,8 @@ const AdminLoginScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const patientLogin = useSelector((state) => state.patientLogin);
-  const { patLoading, patError } = patientLogin;
-
-  //
-  const doctorLogin = useSelector((state) => state.doctorLogin);
-  const { userInfo, docLoading, docError } = doctorLogin;
+  const adminLogin = useSelector((state) => state.adminLogin);
+  const { adminLoading, adminError, userInfo } = adminLogin;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -30,28 +26,27 @@ const AdminLoginScreen = () => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginPatient(email, password)) &&
-      dispatch(loginDoctor(email, password));
+    dispatch(loginAdmin(email, password));
   };
 
   return (
-    <div className="loginscreen">
-      <h1 className="login__header">Sign In</h1>
-      {(docError || patError) && <p className="signIn__error">{docError}</p>}
-      {(docLoading || patLoading) && <h5 className="spinner2"></h5>}
-      <form onSubmit={handleSubmit} className="form__elements">
-        <div className="username__section">
+    <div className="adminloginscreen">
+      <h1 className="login__header">Sign In As Admin</h1>
+      {adminError && <p className="signIn__error">{adminError}</p>}
+      {adminLoading && <div className="spinner2"></div>}
+      <form onSubmit={handleSubmit} className="admin__form__elements">
+        <div className="admin__section">
           <label>Email</label>
           <input
             type="email"
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
         </div>
-        <div className="username__section">
+        <div className="admin__section">
           <label>Password</label>
           <input
             type="password"
@@ -63,11 +58,7 @@ const AdminLoginScreen = () => {
           />
         </div>
 
-        <p className="login__link">
-          New to the platfrom ?{"  "}
-          <Link to="/register">Register</Link>
-        </p>
-        <button type="submit" className="register__btn">
+        <button type="submit" className="admin__login__btn">
           Sign In
         </button>
       </form>

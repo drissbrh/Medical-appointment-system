@@ -50,13 +50,14 @@ const SearchScreen = () => {
         </div>
         <div className="results__area">
           {loading ? (
-            <h2>It's loading</h2>
+            <div className="spinner3"></div>
           ) : error ? (
             <h2>{error}</h2>
           ) : (
             doctors.map((doc) => (
               <>
                 <SearchItem
+                  key1={doc._id}
                   identity={doc._id}
                   name={doc.name}
                   city={doc.city}

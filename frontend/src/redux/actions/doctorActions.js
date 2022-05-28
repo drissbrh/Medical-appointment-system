@@ -52,7 +52,7 @@ export const loginDoctor = (email, password) => async (dispatch) => {
   }
 };
 
-export const registerUserDoctor =
+export const registerDoctor =
   (name, email, password, address, city, phoneNumber, speciality) =>
   async (dispatch) => {
     try {
@@ -130,7 +130,7 @@ export const ListDoctorDetails = (id) => async (dispatch, getState) => {
       type: DOCTOR_DETAILS_REQUEST,
     });
     const {
-      userLogin: { userInfo },
+      patientLogin: { userInfo },
     } = getState();
     const config = {
       headers: {

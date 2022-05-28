@@ -18,6 +18,8 @@ import SearchScreen from "./screens/SearchScreen";
 import AppointmentScreen from "./screens/AppointmentScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import AdminLoginScreen from "./screens/AdminLoginScreen";
+import AdminDashScreen from "./screens/AdminDashScreen";
+import UpdateAppointmentScreen from "./screens/UpdateAppointmentScreen";
 
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
@@ -28,7 +30,12 @@ function App() {
         <Backdrop show={sideToggle} click={() => setSideToggle(false)} />
         <SideDrawer show={sideToggle} click={() => setSideToggle(false)} />
         <Routes>
-          <Route path="/path/adminlogin" exact element={<AdminLoginScreen />} />
+          <Route
+            path="/path/admin/login"
+            exact
+            element={<AdminLoginScreen />}
+          />
+          <Route path="/path/admin/dash" exact element={<AdminDashScreen />} />
           <Route path="/" exact element={<HomeScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
@@ -36,6 +43,10 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/search/" element={<SearchScreen />} />
           <Route path="/doctor/:id" element={<AppointmentScreen />} />
+          <Route
+            path="/appointment/update/:id"
+            element={<UpdateAppointmentScreen />}
+          />
           <Route path="/appointment/:id" element={<SuccessScreen />} />
         </Routes>
       </div>

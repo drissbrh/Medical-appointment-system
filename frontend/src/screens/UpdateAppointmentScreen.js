@@ -1,52 +1,61 @@
 import React, { useEffect, useState } from "react";
-import "./AppointmentScreen.css";
-import { useNavigate, useParams } from "react-router-dom";
-import DoctorCard from "../components/DoctorCard";
-
 import { useDispatch, useSelector } from "react-redux";
-import { ListDoctorDetails } from "../redux/actions/doctorActions";
-import { createAppts } from "../redux/actions/appointmentActions";
-import { APPOINTMENT_CREATE_RESET } from "../redux/constants/appointmentConstants";
+import {
+  getAppointmentDetails,
+  UpdateAppointment,
+} from "../redux/actions/appointmentActions";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AppointmentScreen = () => {
+import doc1 from "../assets/doc1.jpg";
+import patientPic from "../assets/patient.png";
+import refresh from "../assets/refresh (1).png";
+
+import { ListDoctorDetails } from "../redux/actions/doctorActions";
+
+import "./UpdateAppointmentScreen.css";
+import { ListPatientDetails } from "../redux/actions/patientActions";
+import { APPOINTMENT_UPDATE_RESET } from "../redux/constants/appointmentConstants";
+
+const UpdateAppointmentScreen = () => {
   const [bookingDate, setBookingDate] = useState();
   const [startingHour, setStartingHour] = useState();
   const navigate = useNavigate();
 
   const doctorDetails = useSelector((state) => state.doctorDetails);
-  const { loading, error, doctor } = doctorDetails;
+  const { doctor } = doctorDetails;
+
+  const patientDetails = useSelector((state) => state.patientDetails);
+  const { patient } = patientDetails;
 
   //
   const patientLogin = useSelector((state) => state.patientLogin);
   const { userInfo } = patientLogin;
 
-  const appointmentCreate = useSelector((state) => state.appointmentCreate);
-  const { appCreateError, success, appointment } = appointmentCreate;
+  const appointmentUpdate = useSelector((state) => state.appointmentUpdate);
+  const { updateApptSuccess, appUpdateError } = appointmentUpdate;
+
+  const appointmentDetails = useSelector((state) => state.appointmentDetails);
+  const { appointment } = appointmentDetails;
 
   const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
-    if (doctor && id !== doctor._id) {
-      dispatch(ListDoctorDetails(id));
+    if (appointment && id !== appointment._id) {
+      dispatch(getAppointmentDetails(id));
     }
-    if (success) {
-      navigate(`/appointment/${appointment._id}`);
+    dispatch(ListPatientDetails(userInfo._id));
+    dispatch(ListDoctorDetails(appointment.doctor));
+    if (updateApptSuccess) {
+      navigate(`/profile/`);
       dispatch({
-        type: APPOINTMENT_CREATE_RESET,
+        type: APPOINTMENT_UPDATE_RESET,
       });
     }
-  }, [dispatch, doctor, id, navigate, appointment, success]);
+  }, [dispatch, id, navigate, appointment, updateApptSuccess, userInfo]);
 
   const handleClick = () => {
-    dispatch(
-      createAppts({
-        doctor: doctor._id,
-        patient: userInfo._id,
-        startingHour,
-        bookingDate,
-      })
-    );
+    dispatch(UpdateAppointment(appointment._id, { startingHour, bookingDate }));
   };
 
   const HandleDate = (e) => {
@@ -59,22 +68,55 @@ const AppointmentScreen = () => {
   };
 
   return (
-    <div className="appointmentscreen">
-      <div className="inside__form">
-        {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
-        ) : error ? (
-          <h2>{error}</h2>
-        ) : (
-          <DoctorCard
-            name={doctor.name}
-            phone={doctor.phoneNumber}
-            city={doctor.city}
-            spec={doctor.speciality}
-            address={doctor.address}
-          />
+    <div className="successScreen">
+      <div className="successScreen__inside">
+        <h1>
+          Update Appointment <img src={refresh} alt="refresh_icon" />
+        </h1>
+
+        <p>Your appointment is ready to be updated!</p>
+        {doctor && patient && (
+          <>
+            <div className="appt__details">
+              <div className="appt__in__details">
+                <div className="patient__details">
+                  <img src={patientPic} alt="patient" />
+                  <h3>{patient.name}</h3>
+                </div>
+                <div className="doctor__details">
+                  <img src={doc1} alt="doc" />
+                  <h3>{doctor.name}</h3>
+                  <div>
+                    <p>
+                      <span>Phone Number</span>: {doctor.phoneNumber}
+                    </p>
+                    <p>
+                      <span>Speciality</span>: {doctor.speciality}
+                    </p>
+                    <p>
+                      <span>address</span>: {doctor.address}
+                    </p>
+                    <p>
+                      <span>City</span>: {doctor.city}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="appointmentDetails">
+                <div>
+                  <p>
+                    <span>Starting Hour</span>:{"  "}
+                    {appointment.startingHour}h00
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <span>Date</span>: {appointment.bookingDate}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
         )}
         <div className="appoint__inputs">
           <input type="date" onChange={HandleDate} />
@@ -159,13 +201,14 @@ const AppointmentScreen = () => {
             </span>
           </div>
         </div>
-        {appCreateError && <h4 className="appt__error">{appCreateError}</h4>}
-        <div className="div__button">
-          <button onClick={handleClick}>Make RendezVous</button>
-        </div>
+        {appUpdateError && <h4 className="appt__error">{appUpdateError}</h4>}
+
+        <button type="button" className="modify__" onClick={handleClick}>
+          Update my appointment
+        </button>
       </div>
     </div>
   );
 };
 
-export default AppointmentScreen;
+export default UpdateAppointmentScreen;

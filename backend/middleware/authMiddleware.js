@@ -48,4 +48,13 @@ const patient = (req, res, next) => {
   }
 };
 
+const doctor = (req, res, next) => {
+  if (req.doctor && req.doctor.isDoctor) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as a doctor");
+  }
+};
+
 export { protect, admin, patient };

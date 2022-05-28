@@ -11,7 +11,16 @@
   gap: 35px;
   transform: translate(-50%, -50%);
 }
+.profilescreen > h2 {
+  font-size: 65px;
+}
 .profile__elements {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 200px;
+}
+
+.info__side {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,22 +28,22 @@
   padding-bottom: 3rem;
 }
 
-.profile__elements > h2 {
-  font-size: 65px;
+.info__side > h2 {
+  font-size: 35px;
 }
-.profile__elements > button {
+.info__side > button {
   color: white;
   font-size: 17px;
   font-weight: 700;
   background-color: #219ebc;
   border: 2px solid #219ebc;
   padding: 15px 25px;
-  width: 200px;
+  width: 250px;
   cursor: pointer;
   border-radius: 5px;
   transition: 0.2s ease-in-out;
 }
-.profile__elements > button:hover {
+.info__side > button:hover {
   background-color: transparent;
   color: #219ebc;
 }
@@ -87,7 +96,63 @@
 
 .name__section > input:focus {
   outline: none;
-  color: white;
+  color: black;
   border-color: #219ebc;
   background-color: white;
+}
+
+.name__section > select {
+  font-size: 18px;
+  padding: 15px 45px;
+  width: 400px;
+  outline: none;
+  color: black;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.appts__side {
+  display: flex;
+  flex-direction: column;
+  gap: 125px;
+  padding: 5rem;
+}
+.appts__side > h2 {
+  font-size: 35px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+@media (max-width: 1250px) {
+  .profile__elements {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .profile__elements {
+    display: flex;
+    flex-direction: column;
+  }
+  .appts__side {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
 }

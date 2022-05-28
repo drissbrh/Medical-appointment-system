@@ -38,6 +38,39 @@ const getPatientById = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Register a new user
+// @route   POST /api/v1/users
+// @access  Public
+const registerPatient = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const patientExists = await Patient.findOne({ email });
+
+  if (patientExists) {
+    res.status(400);
+    throw new Error("Patient already exists");
+  }
+
+  const patient = await Patient.create({
+    name,
+    email,
+    password,
+  });
+
+  if (patient) {
+    res.status(201).json({
+      _id: patient._id,
+      name: patient.name,
+      email: patient.email,
+      isPatient: patient.isPatient,
+      token: generateToken(patient._id),
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid patient data");
+  }
+});
+
 // @desc    Get All patients
 // @route   GET /api/v1/patients
 // @access  Private/Admin
@@ -52,4 +85,4 @@ const getAllPatients = asyncHandler(async (req, res) => {
   }
 });
 
-export { authPatient, getPatientById, getAllPatients };
+export { authPatient, registerPatient, getPatientById, getAllPatients };

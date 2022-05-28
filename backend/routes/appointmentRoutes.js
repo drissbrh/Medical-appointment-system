@@ -14,7 +14,7 @@ appointmentRouter
   .route("/")
   .post(addAppointment)
   .get(protect, admin, getAllAppointments);
-appointmentRouter.route("/:id/update").put(updateAppointment);
+appointmentRouter.route("/update/:id").put(updateAppointment);
 appointmentRouter.route("/:id").get(protect, getAppointmentById);
 
 //as patient
@@ -23,6 +23,6 @@ appointmentRouter
   .get(protect, getMyApptsAsPatient);
 
 //as Doctor
-appointmentRouter.route("/mydoctor/:doctor").get(protect, getMyApptsAsDoctor);
+appointmentRouter.route("/mydoctor/:doctor").get(getMyApptsAsDoctor);
 
 export default appointmentRouter;

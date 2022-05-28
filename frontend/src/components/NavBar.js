@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./NavBar.css";
-
-import { logout } from "../redux/actions/userActions";
+import { loginAdmin } from "../redux/actions/adminActions";
+import { logout } from "../redux/actions/patientActions";
 
 const NavBar = ({ click }) => {
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const doctorLogin = useSelector((state) => state.doctorLogin);
+
+  const patientLogin = useSelector((state) => state.patientLogin);
+
   const dispatch = useDispatch();
   return (
     <>
@@ -19,11 +21,22 @@ const NavBar = ({ click }) => {
           <li>
             <Link to="/about">About Us</Link>
           </li>
-          {userInfo ? (
+          {patientLogin.userInfo ? (
             <div className="navbar__links">
               <li>
                 <Link to="/profile">
-                  {userInfo.name.split(" ")[0].toUpperCase()}
+                  {patientLogin.userInfo.name.split(" ")[0].toUpperCase()}
+                </Link>
+              </li>
+              <li onClick={() => dispatch(logout())}>
+                <Link to="/profile">Logout</Link>
+              </li>
+            </div>
+          ) : doctorLogin.userInfo ? (
+            <div className="navbar__links">
+              <li>
+                <Link to="/profile">
+                  {doctorLogin.userInfo.name.split(" ")[0].toUpperCase()}
                 </Link>
               </li>
               <li onClick={() => dispatch(logout())}>
