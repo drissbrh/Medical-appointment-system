@@ -10,6 +10,9 @@ import {
   PATIENT_REGISTER_REQUEST,
   PATIENT_REGISTER_SUCCESS,
   PATIENT_REGISTER_FAIL,
+  PATIENT_LIST_REQUEST,
+  PATIENT_LIST_SUCCESS,
+  PATIENT_LIST_FAIL,
 } from "../constants/patientConstants";
 
 export const loginPatient = (email, password) => async (dispatch) => {
@@ -35,7 +38,7 @@ export const loginPatient = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
+    localStorage.setItem("PatientMedicalInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: PATIENT_LOGIN_FAIL,
@@ -47,58 +50,52 @@ export const loginPatient = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("UserMedicalInfo");
+export const logoutPatient = () => (dispatch) => {
+  localStorage.removeItem("PatientMedicalInfo");
   dispatch({ type: PATIENT_LOGOUT });
 
   document.location.href = "/login";
 };
 
-export const registerPatient =
-  (name, email, password, address, city, phoneNumber, speciality) =>
-  async (dispatch) => {
-    try {
-      dispatch({
-        type: PATIENT_REGISTER_REQUEST,
-      });
+export const registerPatient = (name, email, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: PATIENT_REGISTER_REQUEST,
+    });
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const { data } = await axios.post(
-        "api/v1/users/",
-        {
-          name,
-          email,
-          password,
-          address,
-          city,
-          phoneNumber,
-          speciality,
-          isDoctor: true,
-        },
-        config
-      );
+    const { data } = await axios.post(
+      "/api/v1/patients/",
+      {
+        name,
+        email,
+        password,
+        isPatient: true,
+      },
+      config
+    );
 
-      dispatch({
-        type: PATIENT_REGISTER_SUCCESS,
-        payload: data,
-      });
+    dispatch({
+      type: PATIENT_REGISTER_SUCCESS,
+      payload: data,
+    });
 
-      localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: PATIENT_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    localStorage.setItem("PatientMedicalInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: PATIENT_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const ListPatientDetails = (id) => async (dispatch, getState) => {
   try {
@@ -106,11 +103,11 @@ export const ListPatientDetails = (id) => async (dispatch, getState) => {
       type: PATIENT_DETAILS_REQUEST,
     });
     const {
-      patientLogin: { userInfo },
+      patientLogin: { patientInfo },
     } = getState();
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${patientInfo.token}`,
       },
     };
 
@@ -126,10 +123,47 @@ export const ListPatientDetails = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutPatient());
     }
     dispatch({
       type: PATIENT_DETAILS_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const listPatients = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PATIENT_LIST_REQUEST,
+    });
+
+    const {
+      adminLogin: { adminInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/v1/patients`, config);
+
+    dispatch({
+      type: PATIENT_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logoutPatient());
+    }
+    dispatch({
+      type: PATIENT_LIST_FAIL,
       payload: message,
     });
   }

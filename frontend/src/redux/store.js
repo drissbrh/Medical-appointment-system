@@ -12,11 +12,14 @@ import {
   apptCreateReducer,
   apptDetailsReducer,
   doctorAppointmentReducer,
+  getAllAppointmentsReducer,
   patientAppointmentReducer,
 } from "./reducers/appointmentReducer";
 import {
   patientDetailReducer,
   patientLoginReducer,
+  PatientRegisterReducer,
+  patientsListReducer,
 } from "./reducers/patientReducer";
 import { adminLoginReducer } from "./reducers/adminReducer";
 
@@ -25,25 +28,36 @@ const reducer = combineReducers({
   doctorLogin: doctorLoginReducer,
   patientLogin: patientLoginReducer,
   doctorRegister: DoctorRegisterReducer,
+  patientRegister: PatientRegisterReducer,
   doctorList: DoctorListReducer,
   doctorDetails: doctorDetailReducer,
   patientDetails: patientDetailReducer,
+  patientList: patientsListReducer,
   appointmentCreate: apptCreateReducer,
   appointmentUpdate: appointmentUpdateReducer,
   appointmentDetails: apptDetailsReducer,
   patientAppointments: patientAppointmentReducer,
   doctorAppointments: doctorAppointmentReducer,
+  AllAppointments: getAllAppointmentsReducer,
 });
 
 const middleware = [thunk];
 
-const userInfofromLocalStorage = localStorage.getItem("UserMedicalInfo")
-  ? JSON.parse(localStorage.getItem("UserMedicalInfo"))
+const patientInfofromLocalStorage = localStorage.getItem("PatientMedicalInfo")
+  ? JSON.parse(localStorage.getItem("PatientMedicalInfo"))
+  : null;
+
+const doctorInfofromLocalStorage = localStorage.getItem("DoctorMedicalInfo")
+  ? JSON.parse(localStorage.getItem("DoctorMedicalInfo"))
+  : null;
+
+const adminInfofromLocalStorage = localStorage.getItem("AdminMedicalInfo")
+  ? JSON.parse(localStorage.getItem("AdminMedicalInfo"))
   : null;
 const initialeState = {
-  patientLogin: { userInfo: userInfofromLocalStorage },
-  doctorLogin: { userInfo: userInfofromLocalStorage },
-  adminLogin: { userInfo: userInfofromLocalStorage },
+  patientLogin: { patientInfo: patientInfofromLocalStorage },
+  doctorLogin: { doctorInfo: doctorInfofromLocalStorage },
+  adminLogin: { adminInfo: adminInfofromLocalStorage },
 };
 
 const store = createStore(

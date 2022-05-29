@@ -40,7 +40,7 @@ export const loginDoctor = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
+    localStorage.setItem("DoctorMedicalInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: DOCTOR_LOGIN_FAIL,
@@ -67,7 +67,7 @@ export const registerDoctor =
       };
 
       const { data } = await axios.post(
-        "api/v1/doctors/",
+        "/api/v1/doctors/",
         {
           name,
           email,
@@ -86,7 +86,7 @@ export const registerDoctor =
         payload: data,
       });
 
-      localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
+      localStorage.setItem("DoctorMedicalInfo", JSON.stringify(data));
     } catch (error) {
       dispatch({
         type: DOCTOR_REGISTER_FAIL,
@@ -115,7 +115,7 @@ export const listDoctors = () => async (dispatch) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutDoctor());
     }
     dispatch({
       type: DOCTOR_LIST_FAIL,
@@ -130,11 +130,11 @@ export const ListDoctorDetails = (id) => async (dispatch, getState) => {
       type: DOCTOR_DETAILS_REQUEST,
     });
     const {
-      patientLogin: { userInfo },
+      patientLogin: { patientInfo },
     } = getState();
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${patientInfo.token}`,
       },
     };
 
@@ -150,7 +150,7 @@ export const ListDoctorDetails = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutDoctor());
     }
     dispatch({
       type: DOCTOR_DETAILS_FAIL,
@@ -159,8 +159,8 @@ export const ListDoctorDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("UserMedicalInfo");
+export const logoutDoctor = () => (dispatch) => {
+  localStorage.removeItem("DoctorMedicalInfo");
   dispatch({ type: DOCTOR_LOGOUT });
 
   document.location.href = "/login";

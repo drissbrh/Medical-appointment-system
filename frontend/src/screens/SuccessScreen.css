@@ -87,7 +87,7 @@
 .modify__ {
   color: white;
   font-size: 17px;
-  font-weight: 500;
+
   background-color: #219ebc;
   border-radius: 5px;
   border: 2px solid #219ebc;
@@ -97,7 +97,15 @@
   transition: 0.2s ease-in-out;
 }
 
+.modify__ > a {
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+}
+
+.modify__ > a:hover {
+  color: #219ebc;
+}
 .modify__:hover {
   background-color: transparent;
-  color: black;
 }

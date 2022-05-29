@@ -14,31 +14,43 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const patientLogin = useSelector((state) => state.patientLogin);
-  const { patLoading, patError } = patientLogin;
+  const { patLoading, patError, patientInfo } = patientLogin;
 
   //
   const doctorLogin = useSelector((state) => state.doctorLogin);
-  const { docLoading, docError } = doctorLogin;
+  const { docLoading, docError, doctorInfo } = doctorLogin;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (doctorLogin.userInfo || patientLogin.userInfo) {
+    if (doctorInfo || patientInfo) {
       navigate(redirect);
     }
-  }, [navigate, doctorLogin.userInfo, patientLogin.userInfo, redirect]);
+  }, [navigate, doctorInfo, patientInfo, redirect]);
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(loginDoctor(email, password));
-    dispatch(loginPatient(email, password));
+    dispatch(loginDoctor(email, password));
+    //dispatch(loginPatient(email, password));
   };
 
   return (
     <div className="loginscreen">
       <h1 className="login__header">Sign In</h1>
-      {(docError || patError) && <p className="signIn__error">{docError}</p>}
-      {(docLoading || patLoading) && <div className="spinner2"></div>}
+      {docError ? (
+        <p className="signIn__error">{docError}</p>
+      ) : patError ? (
+        <p className="signIn__error">{patError}</p>
+      ) : (
+        <></>
+      )}
+      {docLoading ? (
+        <div className="spinner2"></div>
+      ) : patLoading ? (
+        <div className="spinner2"></div>
+      ) : (
+        <></>
+      )}
       <form onSubmit={handleSubmit} className="form__elements">
         <div className="username__section">
           <label>Email</label>

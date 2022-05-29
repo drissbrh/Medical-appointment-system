@@ -19,7 +19,7 @@ export const loginAdmin = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "api/v1/users/login",
+      "/api/v1/users/login",
       { email, password },
       config
     );
@@ -29,7 +29,7 @@ export const loginAdmin = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("UserMedicalInfo", JSON.stringify(data));
+    localStorage.setItem("AdminMedicalInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: ADMIN_LOGIN_FAIL,
@@ -42,7 +42,7 @@ export const loginAdmin = (email, password) => async (dispatch) => {
 };
 
 export const logoutAdmin = () => (dispatch) => {
-  localStorage.removeItem("UserMedicalInfo");
+  localStorage.removeItem("AdminMedicalInfo");
   dispatch({ type: ADMIN_LOGOUT });
 
   document.location.href = "/login";

@@ -1,6 +1,9 @@
 import axios from "axios";
 
 import {
+  ALL_APPTS_LIST_FAIL,
+  ALL_APPTS_LIST_REQUEST,
+  ALL_APPTS_LIST_SUCCESS,
   APPOINTMENT_CREATE_FAIL,
   APPOINTMENT_CREATE_REQUEST,
   APPOINTMENT_CREATE_SUCCESS,
@@ -17,7 +20,9 @@ import {
   PATIENT_APPTS_LIST_REQUEST,
   PATIENT_APPTS_LIST_SUCCESS,
 } from "../constants/appointmentConstants";
-import { logout } from "./doctorActions";
+import { logoutAdmin } from "./adminActions";
+import { logoutDoctor } from "./doctorActions";
+import { logoutPatient } from "./patientActions";
 
 export const createAppts = (appointment) => async (dispatch, getState) => {
   try {
@@ -26,13 +31,13 @@ export const createAppts = (appointment) => async (dispatch, getState) => {
     });
 
     const {
-      patientLogin: { userInfo },
+      patientLogin: { patientInfo },
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${patientInfo.token}`,
       },
     };
 
@@ -48,7 +53,7 @@ export const createAppts = (appointment) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutPatient());
     }
     dispatch({
       type: APPOINTMENT_CREATE_FAIL,
@@ -63,12 +68,12 @@ export const getAppointmentDetails = (id) => async (dispatch, getState) => {
       type: APPOINTMENT_DETAILS_REQUEST,
     });
     const {
-      patientLogin: { userInfo },
+      patientLogin: { patientInfo },
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${patientInfo.token}`,
       },
     };
     const { data } = await axios.get(`/api/v1/appts/${id}`, config);
@@ -83,7 +88,7 @@ export const getAppointmentDetails = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutPatient());
     }
     dispatch({
       type: APPOINTMENT_DETAILS_FAIL,
@@ -99,13 +104,13 @@ export const UpdateAppointment =
         type: APPOINTMENT_UPDATE_REQUEST,
       });
       const {
-        patientLogin: { userInfo },
+        patientLogin: { patientInfo },
       } = getState();
 
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${patientInfo.token}`,
         },
       };
       const { data } = await axios.put(
@@ -124,7 +129,7 @@ export const UpdateAppointment =
           ? error.response.data.message
           : error.message;
       if (message === "Not authorized, token failed") {
-        dispatch(logout());
+        dispatch(logoutPatient());
       }
       dispatch({
         type: APPOINTMENT_UPDATE_FAIL,
@@ -139,12 +144,12 @@ export const getDoctorAppts = (id) => async (dispatch, getState) => {
       type: DOCTOR_APPTS_LIST_REQUEST,
     });
     const {
-      patientLogin: { userInfo },
+      doctorLogin: { doctorInfo },
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${doctorInfo.token}`,
       },
     };
     const { data } = await axios.get(`/api/v1/appts/mydoctor/${id}`, config);
@@ -159,7 +164,7 @@ export const getDoctorAppts = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutDoctor());
     }
     dispatch({
       type: DOCTOR_APPTS_LIST_FAIL,
@@ -174,12 +179,12 @@ export const getPatientAppts = (id) => async (dispatch, getState) => {
       type: PATIENT_APPTS_LIST_REQUEST,
     });
     const {
-      patientLogin: { userInfo },
+      patientLogin: { patientInfo },
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${patientInfo.token}`,
       },
     };
     const { data } = await axios.get(`/api/v1/appts/mypatient/${id}`, config);
@@ -194,10 +199,45 @@ export const getPatientAppts = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch(logoutPatient());
     }
     dispatch({
       type: PATIENT_APPTS_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const getAllAppts = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ALL_APPTS_LIST_REQUEST,
+    });
+    const {
+      adminLogin: { adminInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/v1/appts/`, config);
+
+    dispatch({
+      type: ALL_APPTS_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logoutAdmin());
+    }
+    dispatch({
+      type: ALL_APPTS_LIST_FAIL,
       payload: message,
     });
   }

@@ -8,7 +8,7 @@ const SearchItem = ({ key1, name, city, phone, address, spec, identity }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const patientLogin = useSelector((state) => state.patientLogin);
-  const { userInfo } = patientLogin;
+  const { patientInfo } = patientLogin;
 
   return (
     <div className="searchitem" key={key1}>
@@ -36,7 +36,7 @@ const SearchItem = ({ key1, name, city, phone, address, spec, identity }) => {
             <i className="fa-solid fa-stethoscope"></i>
             <p>{spec}</p>
           </div>
-          {userInfo.isPatient && (
+          {patientInfo && (
             <button>
               <Link to={`/doctor/${identity}`}>See Availability</Link>
             </button>

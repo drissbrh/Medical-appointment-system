@@ -28,6 +28,12 @@
 .navbar__links > li {
   padding: 0rem 1.5rem;
 }
+.navbar__links > li:last-child {
+  padding: 0rem 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  cursor: pointer;
+}
 .navbar__links > li > a {
   text-decoration: none;
   color: white;

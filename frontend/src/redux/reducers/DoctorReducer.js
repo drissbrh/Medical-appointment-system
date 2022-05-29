@@ -20,7 +20,7 @@ export const doctorLoginReducer = (state = {}, action) => {
     case DOCTOR_LOGIN_REQUEST:
       return { docLoading: true };
     case DOCTOR_LOGIN_SUCCESS:
-      return { docLoading: false, userInfo: action.payload };
+      return { docLoading: false, doctorInfo: action.payload };
     case DOCTOR_LOGIN_FAIL:
       return { docLoading: false, docError: action.payload };
     case DOCTOR_LOGOUT:
@@ -35,7 +35,7 @@ export const DoctorRegisterReducer = (state = {}, action) => {
     case DOCTOR_REGISTER_REQUEST:
       return { docLoading: true };
     case DOCTOR_REGISTER_SUCCESS:
-      return { docLoading: false, userInfo: action.payload };
+      return { docLoading: false, doctorInfo: action.payload };
     case DOCTOR_REGISTER_FAIL:
       return { docLoading: false, docError: action.payload };
     case DOCTOR_LOGOUT:

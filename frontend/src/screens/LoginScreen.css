@@ -75,3 +75,11 @@
   background-color: transparent;
   color: black;
 }
+.signIn__error {
+  color: #f4f4f4;
+  font-size: 17px;
+  background-color: #ff006e;
+  border-radius: 5px;
+  padding: 22px 75px;
+  text-align: center;
+}

@@ -7,6 +7,7 @@ import { listDoctors } from "../redux/actions/doctorActions";
 const SearchScreen = () => {
   const [filterType, setFilterType] = useState("city");
   const [search, setSearch] = useState("");
+
   const doctorList = useSelector((state) => state.doctorList);
   const { loading, error, doctors } = doctorList;
   const dispatch = useDispatch();

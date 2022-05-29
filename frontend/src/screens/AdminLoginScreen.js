@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./AdminLoginScreen.css";
@@ -14,15 +14,15 @@ const AdminLoginScreen = () => {
   const navigate = useNavigate();
 
   const adminLogin = useSelector((state) => state.adminLogin);
-  const { adminLoading, adminError, userInfo } = adminLogin;
+  const { adminLoading, adminError, adminInfo } = adminLogin;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userInfo) {
+    if (adminInfo) {
       navigate(redirect);
     }
-  }, [navigate, userInfo, redirect]);
+  }, [navigate, adminInfo, redirect]);
   //
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const AdminLoginScreen = () => {
   return (
     <div className="adminloginscreen">
       <h1 className="login__header">Sign In As Admin</h1>
-      {adminError && <p className="signIn__error">{adminError}</p>}
+      {adminError && <p className="adminIn__error">{adminError}</p>}
       {adminLoading && <div className="spinner2"></div>}
       <form onSubmit={handleSubmit} className="admin__form__elements">
         <div className="admin__section">

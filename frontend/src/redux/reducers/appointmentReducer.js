@@ -1,4 +1,8 @@
 import {
+  ALL_APPTS_LIST_FAIL,
+  ALL_APPTS_LIST_REQUEST,
+  ALL_APPTS_LIST_RESET,
+  ALL_APPTS_LIST_SUCCESS,
   APPOINTMENT_CREATE_FAIL,
   APPOINTMENT_CREATE_REQUEST,
   APPOINTMENT_CREATE_RESET,
@@ -120,6 +124,24 @@ export const doctorAppointmentReducer = (
       return { loading: false, error: action.payload };
     case DOCTOR_APPTS_LIST_RESET:
       return { doctorAppts: [] };
+    default:
+      return state;
+  }
+};
+
+export const getAllAppointmentsReducer = (
+  state = { allAppointments: [] },
+  action
+) => {
+  switch (action.type) {
+    case ALL_APPTS_LIST_REQUEST:
+      return { allApptsLoading: true };
+    case ALL_APPTS_LIST_SUCCESS:
+      return { allApptsLoading: false, allAppointments: action.payload };
+    case ALL_APPTS_LIST_FAIL:
+      return { allApptsLoading: false, AllApptsError: action.payload };
+    case ALL_APPTS_LIST_RESET:
+      return { allAppointments: [] };
     default:
       return state;
   }

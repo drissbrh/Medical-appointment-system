@@ -20,6 +20,8 @@ import SuccessScreen from "./screens/SuccessScreen";
 import AdminLoginScreen from "./screens/AdminLoginScreen";
 import AdminDashScreen from "./screens/AdminDashScreen";
 import UpdateAppointmentScreen from "./screens/UpdateAppointmentScreen";
+import DoctorProfileScreen from "./screens/DoctorProfileScreen";
+import PatientProfileScreen from "./screens/PatientProfileScreen";
 
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
@@ -38,7 +40,8 @@ function App() {
           <Route path="/path/admin/dash" exact element={<AdminDashScreen />} />
           <Route path="/" exact element={<HomeScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
-          <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/profile/doctor" element={<DoctorProfileScreen />} />
+          <Route path="/profile/patient" element={<PatientProfileScreen />} />
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/search/" element={<SearchScreen />} />

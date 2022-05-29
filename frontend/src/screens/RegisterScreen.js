@@ -15,52 +15,62 @@ const RegisterScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [speciality, setSpeciality] = useState("");
   const [toggle, setToggle] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const toggler = () => {
     toggle ? setToggle(false) : setToggle(true);
   };
   const dispatch = useDispatch();
   const doctorRegister = useSelector((state) => state.doctorRegister);
+  const { doctorInfo, docError } = doctorRegister;
   const patientRegister = useSelector((state) => state.patientRegister);
+  const { patientInfo, patError } = patientRegister;
 
   const location = useLocation();
   const navigate = useNavigate();
-  const redirect = location.search ? location.split("=")[1] : "/";
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (doctorRegister.userInfo || patientRegister.userInfo) {
+    if (doctorInfo || patientInfo) {
       navigate(redirect);
     }
-  }, [navigate, doctorRegister.userInfo, patientRegister.userInfo, redirect]);
+  }, [navigate, doctorInfo, patientInfo, redirect]);
   //
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!toggle) {
-      dispatch(registerPatient(name, email, password));
+      if (confirmPassword !== password) {
+        setMessage("Password does not match");
+      } else {
+        dispatch(registerPatient(name, email, password));
+      }
     } else {
-      dispatch(
-        registerDoctor(
-          name,
-          email,
-          password,
-          address,
-          city,
-          phoneNumber,
-          speciality
-        )
-      );
+      if (confirmPassword !== password) {
+        setMessage("Password does not match");
+      } else {
+        dispatch(
+          registerDoctor(
+            name,
+            email,
+            password,
+            address,
+            city,
+            phoneNumber,
+            speciality
+          )
+        );
+      }
     }
   };
 
   return (
     <div className="registerscreen">
       <h1 className="register__header">Register</h1>
-      {(doctorRegister.error && (
-        <p className="signIn__error">{doctorRegister.error}</p>
-      )) ||
-        (patientRegister.error && (
-          <p className="signIn__error">{patientRegister.error}</p>
-        ))}
+      {(docError && <p className="signIn__error">{docError}</p>) ||
+        (patError && <p className="signIn__error">{patError}</p>)}
+
+      {message && <p className="signIn__error">{message}</p>}
       {(doctorRegister.loading && <div className="spinner2"></div>) ||
         (patientRegister.loading && <div className="spinner2"></div>)}
       <form onSubmit={handleSubmit} className="form__elements1">
@@ -167,7 +177,7 @@ const RegisterScreen = () => {
                 onChange={(e) => setSpeciality(e.target.value)}
               >
                 <option value={"speciality"}>Allergy and Immunology</option>
-                <option value={2}>Anesthesiology</option>
+                <option value={"Anesthesiology"}>Anesthesiology</option>
                 <option value={3}>3</option>
                 <option value={4}>4</option>
                 <option value={5}>5</option>

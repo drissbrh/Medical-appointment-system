@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users/", userRouter);
 app.use("/api/v1/doctors", doctorRouter);
 app.use("/api/v1/appts/", appointmentRouter);
 app.use("/api/v1/patients", patientRouter);

@@ -18,7 +18,7 @@ const AppointmentScreen = () => {
 
   //
   const patientLogin = useSelector((state) => state.patientLogin);
-  const { userInfo } = patientLogin;
+  const { patientInfo } = patientLogin;
 
   const appointmentCreate = useSelector((state) => state.appointmentCreate);
   const { appCreateError, success, appointment } = appointmentCreate;
@@ -42,7 +42,7 @@ const AppointmentScreen = () => {
     dispatch(
       createAppts({
         doctor: doctor._id,
-        patient: userInfo._id,
+        patient: patientInfo._id,
         startingHour,
         bookingDate,
       })

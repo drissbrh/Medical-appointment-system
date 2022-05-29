@@ -71,3 +71,12 @@
   background-color: transparent;
   color: black;
 }
+
+.adminIn__error {
+  color: black;
+  font-size: 17px;
+  background-color: #fb8500;
+  border-radius: 5px;
+  padding: 22px 75px;
+  text-align: center;
+}

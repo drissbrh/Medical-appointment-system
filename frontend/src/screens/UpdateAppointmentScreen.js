@@ -29,7 +29,7 @@ const UpdateAppointmentScreen = () => {
 
   //
   const patientLogin = useSelector((state) => state.patientLogin);
-  const { userInfo } = patientLogin;
+  const { patientInfo } = patientLogin;
 
   const appointmentUpdate = useSelector((state) => state.appointmentUpdate);
   const { updateApptSuccess, appUpdateError } = appointmentUpdate;
@@ -44,15 +44,15 @@ const UpdateAppointmentScreen = () => {
     if (appointment && id !== appointment._id) {
       dispatch(getAppointmentDetails(id));
     }
-    dispatch(ListPatientDetails(userInfo._id));
+    dispatch(ListPatientDetails(patientInfo._id));
     dispatch(ListDoctorDetails(appointment.doctor));
     if (updateApptSuccess) {
-      navigate(`/profile/`);
+      navigate(`/profile/patient`);
       dispatch({
         type: APPOINTMENT_UPDATE_RESET,
       });
     }
-  }, [dispatch, id, navigate, appointment, updateApptSuccess, userInfo]);
+  }, [dispatch, id, navigate, appointment, updateApptSuccess, patientInfo]);
 
   const handleClick = () => {
     dispatch(UpdateAppointment(appointment._id, { startingHour, bookingDate }));
@@ -68,8 +68,8 @@ const UpdateAppointmentScreen = () => {
   };
 
   return (
-    <div className="successScreen">
-      <div className="successScreen__inside">
+    <div className="updateappointmentscreen">
+      <div className="updateScreen__inside">
         <h1>
           Update Appointment <img src={refresh} alt="refresh_icon" />
         </h1>
@@ -77,13 +77,13 @@ const UpdateAppointmentScreen = () => {
         <p>Your appointment is ready to be updated!</p>
         {doctor && patient && (
           <>
-            <div className="appt__details">
+            <div className="appt__update__details">
               <div className="appt__in__details">
-                <div className="patient__details">
+                <div className="patient_update_details">
                   <img src={patientPic} alt="patient" />
                   <h3>{patient.name}</h3>
                 </div>
-                <div className="doctor__details">
+                <div className="doctor_update_details">
                   <img src={doc1} alt="doc" />
                   <h3>{doctor.name}</h3>
                   <div>
@@ -102,7 +102,7 @@ const UpdateAppointmentScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="appointmentDetails">
+              <div className="appointment__update__Details">
                 <div>
                   <p>
                     <span>Starting Hour</span>:{"  "}

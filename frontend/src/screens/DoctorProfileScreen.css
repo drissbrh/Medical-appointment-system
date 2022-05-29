@@ -1,4 +1,4 @@
-.admindashscreen {
+.profilescreen {
   position: absolute;
   height: 80vh;
   top: 50%;
@@ -11,8 +11,8 @@
   gap: 35px;
   transform: translate(-50%, -50%);
 }
-.admindashscreen > h2 {
-  font-size: 45px;
+.profilescreen > h2 {
+  font-size: 65px;
 }
 .profile__elements {
   display: grid;
@@ -73,13 +73,53 @@
   font-weight: 500;
 }
 
-.all__appts__side {
+.name__section {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 15px;
+}
+.name__section > label {
+  font-size: 25px;
+}
+
+.name__section > input {
+  font-size: 18px;
+  padding: 15px 45px;
+  width: 400px;
+  outline: none;
+  color: black;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.name__section > input:focus {
+  outline: none;
+  color: black;
+  border-color: #219ebc;
+  background-color: white;
+}
+
+.name__section > select {
+  font-size: 18px;
+  padding: 15px 45px;
+  width: 400px;
+  outline: none;
+  color: black;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.appts__side {
+  display: flex;
+  flex-direction: column;
+  gap: 125px;
   padding: 5rem;
 }
-.all__appts__side > h2 {
+.appts__side > h2 {
   font-size: 35px;
 }
 table {
@@ -88,31 +128,15 @@ table {
   width: 100%;
 }
 
-th {
-  font-size: 18px;
-}
-
-td > i.fa-trash {
-  color: #ff006e;
-  font-size: 20px;
-}
-
-td > i:hover {
-  color: #ff006e;
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
 td,
 th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 22px;
+  padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #219ebc;
-  color: white;
+  background-color: #dddddd;
 }
 
 @media (max-width: 1250px) {
