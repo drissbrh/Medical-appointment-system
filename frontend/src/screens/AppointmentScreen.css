@@ -1,0 +1,83 @@
+.appointmentscreen {
+  height: 70vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.inside__form {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  padding-bottom: 4rem;
+}
+.appoint__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appoint__inputs > input {
+  padding: 5px;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+}
+.hours__inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.hours__inputs > input {
+  cursor: pointer;
+}
+.morning {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.div__button {
+  display: flex;
+  justify-content: center;
+}
+
+.div__button > button {
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  background-color: #219ebc;
+  border-radius: 5px;
+  border: 2px solid #219ebc;
+  padding: 15px 25px;
+  width: 200px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.div__button > button:hover {
+  background-color: transparent;
+  color: black;
+}
+.appt__error {
+  color: #f4f4f4;
+  font-size: 15px;
+  background-color: red;
+  border-radius: 5px;
+  padding: 12px;
+  text-align: center;
+}
+@media (max-width: 800px) {
+  .inside__form {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,32 @@
+.doctorcard {
+  display: flex;
+  gap: 35px;
+}
+
+.card__left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.card__left > img {
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+.card__right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info__section > P {
+  line-height: 1.7rem;
+}
+
+@media (max-width: 800px) {
+  .doctorcard {
+    flex-direction: column;
+  }
+}

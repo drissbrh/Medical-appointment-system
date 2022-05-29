@@ -16,22 +16,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    phoneNumber: {
-      type: String,
-      required: true,
-      default: " ",
-    },
     isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    isDoctor: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    isPatient: {
       type: Boolean,
       required: true,
       default: true,

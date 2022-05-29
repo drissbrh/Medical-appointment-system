@@ -1,0 +1,111 @@
+.successScreen {
+  height: 70vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.successScreen__inside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0rem 0rem 3rem 0rem;
+  gap: 35px;
+}
+
+.successScreen__inside > p {
+  font-size: 25px;
+}
+
+.appt__details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.appt__in__details {
+  display: flex;
+  padding: 1rem;
+  gap: 105px;
+}
+
+.doctor__details {
+  padding: 0rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+.doctor__details > h3 {
+  font-size: 25px;
+}
+
+.doctor__details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.doctor__details > div > p > span {
+  font-weight: 500;
+}
+.patient__details {
+  padding: 0rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.patient__details > h3 {
+  font-size: 25px;
+}
+
+.patient__details > img {
+  width: 250px;
+  height: 250px;
+}
+
+.doctor__details > h3 {
+  font-weight: 700;
+}
+.doctor__details > img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.appointmentDetails {
+  font-size: 18px;
+}
+.appointmentDetails > div > p > span {
+  font-weight: 500;
+}
+
+.modify__ {
+  color: white;
+  font-size: 17px;
+
+  background-color: #219ebc;
+  border-radius: 5px;
+  border: 2px solid #219ebc;
+  padding: 15px 25px;
+  width: 300px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.modify__ > a {
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+}
+
+.modify__ > a:hover {
+  color: #219ebc;
+}
+.modify__:hover {
+  background-color: transparent;
+}

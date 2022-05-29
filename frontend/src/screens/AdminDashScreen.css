@@ -1,0 +1,134 @@
+.admindashscreen {
+  position: absolute;
+  height: 80vh;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  gap: 35px;
+  transform: translate(-50%, -50%);
+}
+.admindashscreen > h2 {
+  font-size: 45px;
+}
+.profile__elements {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 200px;
+}
+
+.info__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding-bottom: 3rem;
+}
+
+.info__side > h2 {
+  font-size: 35px;
+}
+.info__side > button {
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  background-color: #219ebc;
+  border: 2px solid #219ebc;
+  padding: 15px 25px;
+  width: 250px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.2s ease-in-out;
+}
+.info__side > button:hover {
+  background-color: transparent;
+  color: #219ebc;
+}
+
+.profile__details {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  align-items: center;
+}
+
+.profile__details > img {
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: 0.3s ease-in-out;
+}
+.profile__details > img:hover {
+  opacity: 0.6;
+}
+
+.profile__details > p {
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.all__appts__side {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  padding: 5rem;
+}
+.all__appts__side > h2 {
+  font-size: 35px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  font-size: 18px;
+}
+
+td > i.fa-trash {
+  color: #ff006e;
+  font-size: 20px;
+}
+
+td > i:hover {
+  color: #ff006e;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 22px;
+}
+
+tr:nth-child(even) {
+  background-color: #219ebc;
+  color: white;
+}
+
+@media (max-width: 1250px) {
+  .profile__elements {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .profile__elements {
+    display: flex;
+    flex-direction: column;
+  }
+  .appts__side {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+}
