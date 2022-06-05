@@ -19,7 +19,7 @@ export const loginAdmin = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/v1/users/login",
+      "/api/v1/admin/login",
       { email, password },
       config
     );

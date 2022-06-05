@@ -13,6 +13,9 @@ import {
   PATIENT_LIST_REQUEST,
   PATIENT_LIST_SUCCESS,
   PATIENT_LIST_FAIL,
+  PATIENT_PROFILE_REQUEST,
+  PATIENT_PROFILE_SUCCESS,
+  PATIENT_PROFILE_FAIL,
 } from "../constants/patientConstants";
 
 export const loginPatient = (email, password) => async (dispatch) => {
@@ -164,6 +167,41 @@ export const listPatients = () => async (dispatch, getState) => {
     }
     dispatch({
       type: PATIENT_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const getPatientProfile = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PATIENT_PROFILE_REQUEST,
+    });
+    const {
+      patientLogin: { patientInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${patientInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/v1/patients/profile/${id}`);
+
+    dispatch({
+      type: PATIENT_PROFILE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logoutPatient());
+    }
+    dispatch({
+      type: PATIENT_PROFILE_FAIL,
       payload: message,
     });
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./HomeScreen.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Assets
 import doctor from "../assets/doctor.jpg";
@@ -30,12 +30,11 @@ const HomeScreen = () => {
               <br />
               near you or notify you when availability opens up.
             </p>
-            <div className="homescreen__input">
-              <input placeholder="🩺 condition,treatement" type="text" />
-              <div onClick={handleSearch}>
-                <i className="fa-solid fa-magnifying-glass search__icon"></i>
-              </div>
-            </div>
+
+            <Link to="/search">
+              Go pick a doctor
+              <i class="fa-solid fa-arrow-right-long"></i>
+            </Link>
           </div>
           <div className="doc__image">
             <img src={doctor} alt="doctor__image" />

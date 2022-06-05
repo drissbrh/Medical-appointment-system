@@ -3,6 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import {
   doctorDetailReducer,
+  DoctorListBySpecReducer,
   DoctorListReducer,
   doctorLoginReducer,
   DoctorRegisterReducer,
@@ -18,6 +19,7 @@ import {
 import {
   patientDetailReducer,
   patientLoginReducer,
+  patientProfileReducer,
   PatientRegisterReducer,
   patientsListReducer,
 } from "./reducers/patientReducer";
@@ -30,9 +32,11 @@ const reducer = combineReducers({
   doctorRegister: DoctorRegisterReducer,
   patientRegister: PatientRegisterReducer,
   doctorList: DoctorListReducer,
+  DoctorListBySpec: DoctorListBySpecReducer,
   doctorDetails: doctorDetailReducer,
   patientDetails: patientDetailReducer,
   patientList: patientsListReducer,
+  patientProfile: patientProfileReducer,
   appointmentCreate: apptCreateReducer,
   appointmentUpdate: appointmentUpdateReducer,
   appointmentDetails: apptDetailsReducer,

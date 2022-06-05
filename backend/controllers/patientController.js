@@ -38,6 +38,25 @@ const getPatientById = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get user profile
+// @route   GET /api/v1/doctors/profile
+// @access  Private
+const getPatientProfile = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    res.json({
+      _id: patient._id,
+      name: patient.name,
+      email: patient.email,
+      isPatient: patient.isPatient,
+    });
+  } else {
+    res.status(404);
+    throw new Error("patient not found");
+  }
+});
+
 // @desc    Register a new user
 // @route   POST /api/v1/users
 // @access  Public
@@ -85,4 +104,37 @@ const getAllPatients = asyncHandler(async (req, res) => {
   }
 });
 
-export { authPatient, registerPatient, getPatientById, getAllPatients };
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+const updatePatient = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    patient.name = req.body.name || patient.name;
+    patient.email = req.body.email || patient.email;
+    patient.password = req.body.password || patient.password;
+
+    const updatedPatient = await patient.save();
+
+    res.json({
+      _id: updatedPatient._id,
+      name: updatedPatient.name,
+      email: updatedPatient.email,
+      password: updatedPatient.password,
+      isPatient: updatedPatient.isPatient,
+    });
+  } else {
+    res.status(404);
+    throw new Error("patient not found");
+  }
+});
+
+export {
+  authPatient,
+  registerPatient,
+  getPatientById,
+  getPatientProfile,
+  getAllPatients,
+  updatePatient,
+};

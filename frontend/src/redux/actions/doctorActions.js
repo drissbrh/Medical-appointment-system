@@ -98,7 +98,7 @@ export const registerDoctor =
     }
   };
 
-export const listDoctors = () => async (dispatch) => {
+/*export const listDoctors = () => async (dispatch) => {
   try {
     dispatch({
       type: DOCTOR_LIST_REQUEST,
@@ -122,7 +122,67 @@ export const listDoctors = () => async (dispatch) => {
       payload: message,
     });
   }
-};
+};*/
+
+export const listDoctorsBycity =
+  (keyword = "", pageNumber = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: DOCTOR_LIST_REQUEST,
+      });
+      const { data } = await axios.get(
+        `/api/v1/doctors/search/city?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
+
+      dispatch({
+        type: DOCTOR_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logoutDoctor());
+      }
+      dispatch({
+        type: DOCTOR_LIST_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const listDoctorsBySpec =
+  (keyword = "", pageNumber = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: DOCTOR_LIST_REQUEST,
+      });
+      const { data } = await axios.get(
+        `/api/v1/doctors/search/spec?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
+
+      dispatch({
+        type: DOCTOR_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logoutDoctor());
+      }
+      dispatch({
+        type: DOCTOR_LIST_FAIL,
+        payload: message,
+      });
+    }
+  };
 
 export const ListDoctorDetails = (id) => async (dispatch, getState) => {
   try {

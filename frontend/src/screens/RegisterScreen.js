@@ -22,9 +22,9 @@ const RegisterScreen = () => {
   };
   const dispatch = useDispatch();
   const doctorRegister = useSelector((state) => state.doctorRegister);
-  const { doctorInfo, docError } = doctorRegister;
+  const { doctorInfo, docError, loading: docLoading } = doctorRegister;
   const patientRegister = useSelector((state) => state.patientRegister);
-  const { patientInfo, patError } = patientRegister;
+  const { patientInfo, patError, loading: patLoading } = patientRegister;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,7 +45,8 @@ const RegisterScreen = () => {
       } else {
         dispatch(registerPatient(name, email, password));
       }
-    } else {
+    }
+    if (toggle) {
       if (confirmPassword !== password) {
         setMessage("Password does not match");
       } else {
@@ -67,12 +68,21 @@ const RegisterScreen = () => {
   return (
     <div className="registerscreen">
       <h1 className="register__header">Register</h1>
-      {(docError && <p className="signIn__error">{docError}</p>) ||
-        (patError && <p className="signIn__error">{patError}</p>)}
-
+      {patError ? (
+        <p className="signIn__error">{patError}</p>
+      ) : docError ? (
+        <p className="signIn__error">{docError}</p>
+      ) : (
+        <></>
+      )}
+      {docLoading ? (
+        <div className="spinner2"></div>
+      ) : patLoading ? (
+        <div className="spinner2"></div>
+      ) : (
+        <></>
+      )}
       {message && <p className="signIn__error">{message}</p>}
-      {(doctorRegister.loading && <div className="spinner2"></div>) ||
-        (patientRegister.loading && <div className="spinner2"></div>)}
       <form onSubmit={handleSubmit} className="form__elements1">
         <div className="switch__section">
           <div className="patient__doctor">
@@ -147,15 +157,35 @@ const RegisterScreen = () => {
               />
             </div>
             <div className="username__section1">
-              <label>city</label>
-              <input
-                type="name"
-                placeholder="Add your city"
+              <label>City</label>
+              <select
                 value={city}
-                onChange={(e) => {
-                  setCity(e.target.value);
-                }}
-              />
+                className="spec__select"
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Choose a city"
+              >
+                <option value={""}>Choose a City</option>
+                <option value={"Casablanca"}>Casablanca</option>
+                <option value={"Fes"}>Fes</option>
+                <option value={"Tangier"}>Tangier</option>
+                <option value={"Salé"}>Salé</option>
+                <option value={"Marrakesh"}>Marrakesh</option>
+                <option value={"Meknes"}>Meknes</option>
+                <option value={"Rabat"}>Rabat</option>
+                <option value={"Oujda"}>Oujda</option>
+                <option value={"Agadir"}>Agadir</option>
+                <option value={"Laayoune"}>Laayoune</option>
+                <option value={"Tetouan"}>Tetouan</option>
+                <option value={"Mohammedia"}>Mohammedia</option>
+                <option value={"Essaouira"}>Essaouira</option>
+                <option value={"Errachidia"}>Errachidia</option>
+                <option value={"Settat"}>Settat</option>
+                <option value={"Safi"}>Safi</option>
+                <option value={"Taroudant"}>Taroudant</option>
+                <option value={"Ouarzazate"}>Ouarzazate</option>
+                <option value={"Ben Guerir"}>Ben Guerir</option>
+                <option value={"Khouribga"}>Khouribga</option>
+              </select>
             </div>
             <div className="username__section1">
               <label>Phone Number</label>
@@ -176,12 +206,23 @@ const RegisterScreen = () => {
                 className="spec__select"
                 onChange={(e) => setSpeciality(e.target.value)}
               >
+                <option value={""}>Choose a Speciality</option>
                 <option value={"speciality"}>Allergy and Immunology</option>
                 <option value={"Anesthesiology"}>Anesthesiology</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
+                <option value={"Colon And Rectal Surgery"}>
+                  Colon And Rectal Surgery
+                </option>
+                <option value={"Cardiology"}>Cardiology</option>
+                <option value={"Dermatology"}>Dermatology</option>
+                <option value={"Physical Medicine And Rehabilitation"}>
+                  Physical Medicine And Rehabilitation
+                </option>
+                <option value={"Emergency medicine"}>Emergency medicine</option>
+                <option value={"Internal medicine"}>Internal medicine</option>
+                <option value={"Neurology"}>Neurology</option>
+                <option value={"Ophthalmology"}>Ophthalmology</option>
+                <option value={"Psychiatry"}>Psychiatry</option>
+                <option value={"Surgery"}>Surgery</option>
               </select>
             </div>
           </>

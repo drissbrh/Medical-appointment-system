@@ -15,9 +15,6 @@ const DoctorRow = ({ click, clickDelete, patientId, hour, day }) => {
       <td>{hour}H00</td>
       <td>{day}</td>
       <td>
-        <i className="fa-solid fa-wrench" onClick={click}></i>
-      </td>
-      <td>
         <i className="fa-solid fa-trash" onClick={clickDelete}></i>
       </td>
     </tr>

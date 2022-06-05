@@ -21,7 +21,7 @@ const doctors = [
   },
   {
     name: "Ichrak Doc 3",
-    email: "ichrak@example.com",
+    email: "ichrak@gmail.com",
     password: bcrypt.hashSync("112233", 10),
     phoneNumber: "0541430565",
     city: "agadir",

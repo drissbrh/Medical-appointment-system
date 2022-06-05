@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./AdminDashScreen.css";
 import admin from "../assets/admin.png";
 import { getAllAppts } from "../redux/actions/appointmentActions";
-import { listDoctors } from "../redux/actions/doctorActions";
+import { listDoctorsBycity } from "../redux/actions/doctorActions";
 import DoctorRow from "../components/DoctorRow";
 import { listPatients } from "../redux/actions/patientActions";
 import PatientRow from "../components/PatientRow";
@@ -38,7 +38,7 @@ const AdminDashScreen = () => {
   const handleDelete = () => {};
   useEffect(() => {
     dispatch(getAllAppts());
-    dispatch(listDoctors());
+    dispatch(listDoctorsBycity());
     dispatch(listPatients());
   }, [dispatch, adminInfo]);
 

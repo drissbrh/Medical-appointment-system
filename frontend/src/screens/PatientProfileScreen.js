@@ -5,6 +5,7 @@ import patientPic from "../assets/patient.png";
 import { getPatientAppts } from "../redux/actions/appointmentActions";
 import { ListDoctorDetails } from "../redux/actions/doctorActions";
 import PatientRow from "../components/PatientRow";
+import { getPatientProfile } from "../redux/actions/patientActions";
 
 const PatientProfileScreen = () => {
   const [name, setName] = useState("");
@@ -19,6 +20,9 @@ const PatientProfileScreen = () => {
   const patientLogin = useSelector((state) => state.patientLogin);
   const { patientInfo, patError, loading } = patientLogin;
 
+  const patientProfile = useSelector((state) => state.patientProfile);
+  const { patientProfiler } = patientProfile;
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -29,6 +33,7 @@ const PatientProfileScreen = () => {
   useEffect(() => {
     //dispatch(getDoctorAppts(patientInfo._id));
     dispatch(getPatientAppts(patientInfo._id));
+    dispatch(getPatientProfile(patientInfo._id));
     //dispatch(ListDoctorDetails(doctorAppts));
   }, [dispatch, patientInfo]);
 
@@ -38,61 +43,51 @@ const PatientProfileScreen = () => {
       <form className="profile__elements" onSubmit={handleSubmit}>
         <div className="info__side">
           <h2>My personal info</h2>
-          {loading ? (
-            <div className="loading">
-              <div className="spinner"></div>
-            </div>
-          ) : patError ? (
-            <h3>{patError}</h3>
-          ) : (
+          {patientProfiler && (
             <>
-              {
-                <>
-                  <div className="profile__details">
-                    <img src={patientPic} alt="profile pic" />
-                    <p>{patientInfo.name.split(" ")[0].toUpperCase()}</p>
-                  </div>
-                  <>
-                    <div className="name__section">
-                      <label>Name</label>
-                      <input
-                        type="name"
-                        placeholder={patientInfo.name}
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="name__section">
-                      <label>Email</label>
-                      <input
-                        type="email"
-                        placeholder={patientInfo.email}
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="name__section">
-                      <label>Password</label>
-                      <input
-                        type="password"
-                        placeholder="Enter your new password"
-                        value={newPassword}
-                        onChange={(e) => {
-                          setNewPassword(e.target.value);
-                        }}
-                      />
-                    </div>
+              <div className="profile__details">
+                <img src={patientPic} alt="profile pic" />
+                <p>{patientProfiler.name}</p>
+              </div>
+              <>
+                <div className="name__section">
+                  <label>Name</label>
+                  <input
+                    type="name"
+                    placeholder={patientProfiler.name}
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="name__section">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder={patientProfiler.email}
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="name__section">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="Enter your new password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                    }}
+                  />
+                </div>
 
-                    <button type="submit" onClick={""}>
-                      Update personal info
-                    </button>
-                  </>
-                </>
-              }
+                <button type="submit" onClick={""}>
+                  Update personal info
+                </button>
+              </>
             </>
           )}
         </div>
@@ -115,7 +110,7 @@ const PatientProfileScreen = () => {
                     click={handleModification}
                     clickDelete={handleDelete}
                     identify={p._id}
-                    doctor={p.doctor}
+                    doctor={p.doctor.name}
                     bookingDate={p.bookingDate}
                     startingHour={p.startingHour}
                   />

@@ -1,6 +1,10 @@
 import express from "express";
 const appointmentRouter = express.Router();
-import { admin, patient, protect } from "../middleware/authMiddleware.js";
+import {
+  admin,
+  patientMiddleware,
+  protect,
+} from "../middleware/authMiddleware.js";
 import {
   addAppointment,
   getAppointmentById,

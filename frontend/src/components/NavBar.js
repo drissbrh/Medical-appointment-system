@@ -9,10 +9,16 @@ import { logoutDoctor } from "../redux/actions/doctorActions";
 const NavBar = ({ click }) => {
   //Doctor
   const doctorLogin = useSelector((state) => state.doctorLogin);
-  const { doctorInfo } = doctorLogin;
+  const { doctorInfo: docLog } = doctorLogin;
+
+  const doctorRegister = useSelector((state) => state.doctorRegister);
+  const { doctorInfo: docReg } = doctorRegister;
   //Patient
   const patientLogin = useSelector((state) => state.patientLogin);
-  const { patientInfo } = patientLogin;
+  const { patientInfo: patientLog } = patientLogin;
+
+  const patientRegister = useSelector((state) => state.patientRegister);
+  const { patientInfo: patientReg } = patientRegister;
   //Admin
   const adminLogin = useSelector((state) => state.adminLogin);
   const { adminInfo } = adminLogin;
@@ -28,20 +34,38 @@ const NavBar = ({ click }) => {
           <li>
             <Link to="/about">About Us</Link>
           </li>
-          {patientInfo ? (
+          {patientReg ? (
             <div className="navbar__links">
               <li>
                 <Link to="/profile/patient">
-                  {patientInfo.name.split(" ")[0].toUpperCase()}
+                  {patientReg.name.split(" ")[0].toUpperCase()}
                 </Link>
               </li>
               <li onClick={() => dispatch(logoutPatient())}>Logout</li>
             </div>
-          ) : doctorInfo ? (
+          ) : patientLog ? (
+            <div className="navbar__links">
+              <li>
+                <Link to="/profile/patient">
+                  {patientLog.name.split(" ")[0].toUpperCase()}
+                </Link>
+              </li>
+              <li onClick={() => dispatch(logoutPatient())}>Logout</li>
+            </div>
+          ) : docReg ? (
             <div className="navbar__links">
               <li>
                 <Link to="/profile/doctor">
-                  {doctorInfo.name.split(" ")[0].toUpperCase()}
+                  {docReg.name.split(" ")[0].toUpperCase()}
+                </Link>
+              </li>
+              <li onClick={() => dispatch(logoutDoctor())}>Logout</li>
+            </div>
+          ) : docLog ? (
+            <div className="navbar__links">
+              <li>
+                <Link to="/profile/doctor">
+                  {docLog.name.split(" ")[0].toUpperCase()}
                 </Link>
               </li>
               <li onClick={() => dispatch(logoutDoctor())}>Logout</li>

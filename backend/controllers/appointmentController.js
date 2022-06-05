@@ -6,6 +6,7 @@ import Appointment from "../models/appointmentModel.js";
 // @access  Private
 const addAppointment = asyncHandler(async (req, res) => {
   const { startingHour, bookingDate, patient, doctor } = req.body;
+
   const appointmentExists = await Appointment.findOne({
     bookingDate: req.body.bookingDate,
     startingHour: req.body.startingHour,
@@ -65,7 +66,11 @@ const updateAppointment = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appts/myappts
 // @access  Private
 const getMyApptsAsPatient = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({ patient: req.params.patient });
+  const appointments = await Appointment.find({
+    patient: req.params.patient,
+  })
+    .populate("doctor", "id name")
+    .populate("patient", "id name");
   res.json(appointments);
 });
 
@@ -73,7 +78,10 @@ const getMyApptsAsPatient = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appts/myappts
 // @access  Private
 const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({ doctor: req.params.doctor });
+  const appointments = await Appointment.find({ doctor: req.params.doctor })
+    .populate("patient", "id name")
+    .populate("doctor", "id name");
+
   res.json(appointments);
 });
 
