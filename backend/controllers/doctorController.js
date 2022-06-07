@@ -244,6 +244,21 @@ const getAllDoctors = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete doctor
+// @route   DELETE /api/v1/doctors/:id
+// @access  Private/Admin
+const deleteDoctor = asyncHandler(async (req, res) => {
+  const doctor = await Doctor.findById(req.params.id);
+
+  if (doctor) {
+    await doctor.remove();
+    res.json({ message: "doctor removed" });
+  } else {
+    res.status(404);
+    throw new Error("doctor not found");
+  }
+});
+
 export {
   authDoctor,
   registerDoctor,
@@ -254,4 +269,5 @@ export {
   getAllDoctorsBySpeciality,
   getDoctorById,
   updateDoctor,
+  deleteDoctor,
 };

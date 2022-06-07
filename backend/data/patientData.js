@@ -12,8 +12,8 @@ const patients = [
     password: bcrypt.hashSync("112233", 10),
   },
   {
-    name: "patient 3",
-    email: "patient@example.com",
+    name: "hamza 3",
+    email: "hamza@gmail.com",
     password: bcrypt.hashSync("112233", 10),
   },
 ];

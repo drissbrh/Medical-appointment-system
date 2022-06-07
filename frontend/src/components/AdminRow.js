@@ -12,14 +12,23 @@ const AdminRow = ({
 }) => {
   return (
     <tr>
-      <td>{patient}</td>
-      <td>{doctor}</td>
+      {patient ? (
+        <td>{patient.name}</td>
+      ) : (
+        <td>
+          <b>User probably deleted</b>
+        </td>
+      )}
+      {doctor ? (
+        <td>{doctor.name}</td>
+      ) : (
+        <td>
+          <b>User probably deleted</b>
+        </td>
+      )}
       <td>{hour}h00</td>
       <td>{day}</td>
       <td>{createdAt}</td>
-      <td>
-        <i className="fa-solid fa-trash" onClick={clickDelete}></i>
-      </td>
     </tr>
   );
 };

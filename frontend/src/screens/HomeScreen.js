@@ -33,7 +33,7 @@ const HomeScreen = () => {
 
             <Link to="/search">
               Go pick a doctor
-              <i class="fa-solid fa-arrow-right-long"></i>
+              <i className="fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
           <div className="doc__image">

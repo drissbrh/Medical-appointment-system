@@ -16,6 +16,12 @@ import {
   PATIENT_PROFILE_REQUEST,
   PATIENT_PROFILE_SUCCESS,
   PATIENT_PROFILE_FAIL,
+  PATIENT_UPDATE_PROFILE_REQUEST,
+  PATIENT_UPDATE_PROFILE_SUCCESS,
+  PATIENT_UPDATE_PROFILE_FAIL,
+  PATIENT_DELETE_REQUEST,
+  PATIENT_DELETE_SUCCESS,
+  PATIENT_DELETE_FAIL,
 } from "../constants/patientConstants";
 
 export const loginPatient = (email, password) => async (dispatch) => {
@@ -202,6 +208,83 @@ export const getPatientProfile = (id) => async (dispatch, getState) => {
     }
     dispatch({
       type: PATIENT_PROFILE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const UpdatePatientProfile =
+  (id, patient) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PATIENT_UPDATE_PROFILE_REQUEST,
+      });
+
+      const {
+        patientLogin: { patientInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${patientInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/v1/patients/${id}`,
+        patient,
+        config
+      );
+
+      dispatch({
+        type: PATIENT_UPDATE_PROFILE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logoutPatient());
+      }
+      dispatch({
+        type: PATIENT_UPDATE_PROFILE_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const deletePatient = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PATIENT_DELETE_REQUEST,
+    });
+
+    const {
+      adminLogin: { adminInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/v1/patients/${id}`, config);
+
+    dispatch({ type: PATIENT_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logoutPatient());
+    }
+    dispatch({
+      type: PATIENT_DELETE_FAIL,
       payload: message,
     });
   }

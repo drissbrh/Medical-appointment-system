@@ -8,7 +8,7 @@ const doctors = [
     phoneNumber: "0512120565",
     city: "Salé",
     address: "hay talberjt num 79",
-    speciality: "dentist",
+    speciality: "Allergy and Immunology",
   },
   {
     name: "Mohammed Doc 2",
@@ -17,7 +17,7 @@ const doctors = [
     phoneNumber: "0511223636",
     city: "Marrakech",
     address: "hay talberjt num 79",
-    speciality: "heartist",
+    speciality: "Cardiology",
   },
   {
     name: "Ichrak Doc 3",
@@ -26,7 +26,7 @@ const doctors = [
     phoneNumber: "0541430565",
     city: "agadir",
     address: "hay talberjt num 14",
-    speciality: "cherurgien",
+    speciality: "Emergency medicine",
   },
 ];
 

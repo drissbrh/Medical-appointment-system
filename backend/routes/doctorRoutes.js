@@ -9,6 +9,7 @@ import {
   updateDoctor,
   getAllDoctorsByCity,
   getAllDoctorsBySpeciality,
+  deleteDoctor,
 } from "../controllers/doctorController.js";
 import {
   protect,
@@ -27,6 +28,7 @@ doctorRouter
   .route("/:id")
   .get(protect, getDoctorById)
   .get(getDoctorProfile)
-  .put(protect, updateDoctor);
+  .put(protect, updateDoctor)
+  .delete(protect, deleteDoctor);
 
 export default doctorRouter;

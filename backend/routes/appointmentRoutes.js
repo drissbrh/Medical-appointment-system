@@ -12,6 +12,7 @@ import {
   getMyApptsAsPatient,
   updateAppointment,
   getAllAppointments,
+  deleteAppointment,
 } from "../controllers/appointmentController.js";
 
 appointmentRouter
@@ -19,7 +20,10 @@ appointmentRouter
   .post(addAppointment)
   .get(protect, admin, getAllAppointments);
 appointmentRouter.route("/update/:id").put(updateAppointment);
-appointmentRouter.route("/:id").get(protect, getAppointmentById);
+appointmentRouter
+  .route("/:id")
+  .get(protect, getAppointmentById)
+  .delete(deleteAppointment);
 
 //as patient
 appointmentRouter

@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./PatientProfileScreen.css";
 import patientPic from "../assets/patient.png";
-import { getPatientAppts } from "../redux/actions/appointmentActions";
-import { ListDoctorDetails } from "../redux/actions/doctorActions";
+import {
+  getPatientAppts,
+  deleteAppointment,
+} from "../redux/actions/appointmentActions";
 import PatientRow from "../components/PatientRow";
-import { getPatientProfile } from "../redux/actions/patientActions";
+import {
+  getPatientProfile,
+  UpdatePatientProfile,
+} from "../redux/actions/patientActions";
+import { PATIENT_UPDATE_PROFILE_RESET } from "../redux/constants/patientConstants";
 
 const PatientProfileScreen = () => {
   const [name, setName] = useState("");
@@ -23,19 +29,33 @@ const PatientProfileScreen = () => {
   const patientProfile = useSelector((state) => state.patientProfile);
   const { patientProfiler } = patientProfile;
 
+  const apptDelete = useSelector((state) => state.apptDelete);
+  const { success: successDelete } = apptDelete;
+
+  const patientProfileUpdate = useSelector(
+    (state) => state.patientProfileUpdate
+  );
+  const { success } = patientProfileUpdate;
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const handleModification = () => {};
+  const handleModification = () => {
+    dispatch(
+      UpdatePatientProfile(patientInfo._id, { name, email, newPassword })
+    );
+  };
 
-  const handleDelete = () => {};
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteAppointment(id));
+    }
+  };
   useEffect(() => {
-    //dispatch(getDoctorAppts(patientInfo._id));
     dispatch(getPatientAppts(patientInfo._id));
     dispatch(getPatientProfile(patientInfo._id));
-    //dispatch(ListDoctorDetails(doctorAppts));
-  }, [dispatch, patientInfo]);
+  }, [dispatch, patientInfo, successDelete]);
 
   return (
     <div className="profilescreen">
@@ -84,9 +104,14 @@ const PatientProfileScreen = () => {
                   />
                 </div>
 
-                <button type="submit" onClick={""}>
+                <button type="submit" onClick={handleModification}>
                   Update personal info
                 </button>
+                {success && (
+                  <p className="updatedInfo__msg">
+                    Your personal info are being updated
+                  </p>
+                )}
               </>
             </>
           )}
@@ -108,7 +133,7 @@ const PatientProfileScreen = () => {
                 patientAppts.map((p) => (
                   <PatientRow
                     click={handleModification}
-                    clickDelete={handleDelete}
+                    clickDelete={deleteHandler}
                     identify={p._id}
                     doctor={p.doctor.name}
                     bookingDate={p.bookingDate}

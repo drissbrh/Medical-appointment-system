@@ -30,8 +30,8 @@ const LoginScreen = () => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(loginDoctor(email, password));
-    dispatch(loginPatient(email, password));
+    dispatch(loginDoctor(email, password));
+    //dispatch(loginPatient(email, password));
   };
 
   return (

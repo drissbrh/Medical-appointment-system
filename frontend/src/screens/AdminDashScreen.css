@@ -94,20 +94,24 @@ th {
 
 td > i.fa-trash {
   color: #ff006e;
-  font-size: 20px;
-}
-
-td > i:hover {
-  color: #ff006e;
-  transform: scale(1.2);
+  font-size: 25px;
   cursor: pointer;
+  transition: 0.2s ease-in-out;
 }
 
-td,
-th {
+td > i.fa-trash:hover {
+  transform: scale(1.2);
+}
+
+td {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 22px;
+  padding: 8px;
+}
+th {
+  text-align: center;
+  background-color: #023047;
+  color: white;
 }
 
 tr:nth-child(even) {

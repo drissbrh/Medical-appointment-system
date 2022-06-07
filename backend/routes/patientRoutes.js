@@ -8,11 +8,16 @@ import {
   getPatientProfile,
   registerPatient,
   updatePatient,
+  deletePatient,
 } from "../controllers/patientController.js";
 
 patientRouter.route("/login").post(authPatient);
 patientRouter.route("/profile/:id").get(getPatientProfile);
-patientRouter.route("/:id").get(protect, getPatientById).put(updatePatient);
+patientRouter
+  .route("/:id")
+  .get(protect, getPatientById)
+  .put(protect, updatePatient)
+  .delete(protect, deletePatient);
 patientRouter
   .route("/")
   .get(protect, admin, getAllPatients)

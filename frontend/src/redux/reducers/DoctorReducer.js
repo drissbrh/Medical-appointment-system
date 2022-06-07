@@ -13,6 +13,16 @@ import {
   DOCTOR_LOGIN_REQUEST,
   DOCTOR_LOGIN_SUCCESS,
   DOCTOR_LOGIN_FAIL,
+  DOCTOR_DELETE_REQUEST,
+  DOCTOR_DELETE_SUCCESS,
+  DOCTOR_DELETE_FAIL,
+  DOCTOR_UPDATE_PROFILE_REQUEST,
+  DOCTOR_UPDATE_PROFILE_SUCCESS,
+  DOCTOR_UPDATE_PROFILE_FAIL,
+  DOCTOR_UPDATE_PROFILE_RESET,
+  DOCTOR_PROFILE_REQUEST,
+  DOCTOR_PROFILE_SUCCESS,
+  DOCTOR_PROFILE_FAIL,
 } from "../constants/doctorConstants";
 
 export const doctorLoginReducer = (state = {}, action) => {
@@ -104,6 +114,50 @@ export const doctorDetailReducer = (state = { doctor: {} }, action) => {
     case DOCTOR_DETAILS_SUCCESS:
       return { loading: false, doctor: action.payload };
     case DOCTOR_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const doctorProfileReducer = (
+  state = { doctorProfiler: {} },
+  action
+) => {
+  switch (action.type) {
+    case DOCTOR_PROFILE_REQUEST:
+      return { loading: true };
+    case DOCTOR_PROFILE_SUCCESS:
+      return { loading: false, doctorProfiler: action.payload };
+    case DOCTOR_PROFILE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const doctorUpdateProfileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DOCTOR_UPDATE_PROFILE_REQUEST:
+      return { loading: true };
+    case DOCTOR_UPDATE_PROFILE_SUCCESS:
+      return { loading: false, success: true, doctorInfo: action.payload };
+    case DOCTOR_UPDATE_PROFILE_FAIL:
+      return { loading: false, error: action.payload };
+    case DOCTOR_UPDATE_PROFILE_RESET:
+      return { state: {} };
+    default:
+      return state;
+  }
+};
+
+export const doctorDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DOCTOR_DELETE_REQUEST:
+      return { loading: true };
+    case DOCTOR_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case DOCTOR_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

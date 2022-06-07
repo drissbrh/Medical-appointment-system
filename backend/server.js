@@ -9,7 +9,6 @@ import path from "path";
 import doctorRouter from "./routes/doctorRoutes.js";
 import appointmentRouter from "./routes/appointmentRoutes.js";
 import patientRouter from "./routes/patientRoutes.js";
-import uploadRouter from "./routes/uploadRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import adminRouter from "./routes/adminRoutes.js";
@@ -25,7 +24,7 @@ app.use("/api/v1/admin/", adminRouter);
 app.use("/api/v1/doctors", doctorRouter);
 app.use("/api/v1/appts/", appointmentRouter);
 app.use("/api/v1/patients", patientRouter);
-app.use("/api/v1/upload", uploadRouter);
+//app.use("/api/v1/upload", uploadRouter);
 
 const __dirname = path.resolve();
 /*

@@ -7,6 +7,9 @@ import {
   APPOINTMENT_CREATE_FAIL,
   APPOINTMENT_CREATE_REQUEST,
   APPOINTMENT_CREATE_SUCCESS,
+  APPOINTMENT_DELETE_FAIL,
+  APPOINTMENT_DELETE_REQUEST,
+  APPOINTMENT_DELETE_SUCCESS,
   APPOINTMENT_DETAILS_FAIL,
   APPOINTMENT_DETAILS_REQUEST,
   APPOINTMENT_DETAILS_SUCCESS,
@@ -238,6 +241,42 @@ export const getAllAppts = () => async (dispatch, getState) => {
     }
     dispatch({
       type: ALL_APPTS_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const deleteAppointment = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: APPOINTMENT_DELETE_REQUEST,
+    });
+
+    const {
+      patientLogin: { patientInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${patientInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/v1/appts/${id}`, config);
+
+    dispatch({
+      type: APPOINTMENT_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logoutPatient());
+    }
+    dispatch({
+      type: APPOINTMENT_DELETE_FAIL,
       payload: message,
     });
   }

@@ -207,7 +207,9 @@ const RegisterScreen = () => {
                 onChange={(e) => setSpeciality(e.target.value)}
               >
                 <option value={""}>Choose a Speciality</option>
-                <option value={"speciality"}>Allergy and Immunology</option>
+                <option value={"Allergy and Immunology"}>
+                  Allergy and Immunology
+                </option>
                 <option value={"Anesthesiology"}>Anesthesiology</option>
                 <option value={"Colon And Rectal Surgery"}>
                   Colon And Rectal Surgery

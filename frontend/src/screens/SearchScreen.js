@@ -59,7 +59,7 @@ const SearchScreen = () => {
             />
           )}
 
-          <button type="button">Search</button>
+          {/* <button type="button">Search</button> */}
         </div>
         <div className="results__area">
           {loading ? (

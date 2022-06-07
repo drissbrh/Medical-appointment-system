@@ -130,6 +130,20 @@ const updatePatient = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete patient
+// @route   DELETE /api/v1/patient/:id
+// @access  Private/Admin
+const deletePatient = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    await patient.remove();
+    res.json({ message: "patient removed" });
+  } else {
+    res.status(404);
+    throw new Error("patient not found");
+  }
+});
 export {
   authPatient,
   registerPatient,
@@ -137,4 +151,5 @@ export {
   getPatientProfile,
   getAllPatients,
   updatePatient,
+  deletePatient,
 };
