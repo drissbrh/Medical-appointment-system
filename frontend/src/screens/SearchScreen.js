@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import SearchItem from "../components/SearchItem";
+
 import "./SearchScreen.css";
 import { useDispatch, useSelector } from "react-redux";
-import { listDoctors } from "../redux/actions/doctorActions";
+import {
+  listDoctorsBycity,
+  listDoctorsBySpec,
+} from "../redux/actions/doctorActions";
+import { useParams } from "react-router-dom";
 
 const SearchScreen = () => {
+  const { keyword } = useParams();
+  const { pageNumber } = useParams() || 1;
   const [filterType, setFilterType] = useState("city");
   const [search, setSearch] = useState("");
 
@@ -13,8 +20,13 @@ const SearchScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listDoctors());
-  }, [dispatch]);
+    //dispatch(listDoctors(search, pageNumber));
+    if (filterType === "city") {
+      dispatch(listDoctorsBycity(search, pageNumber));
+    } else {
+      dispatch(listDoctorsBySpec(search, pageNumber));
+    }
+  }, [dispatch, search, filterType]);
   return (
     <div className="searchscreen">
       <div className="inside__searchscreen">
@@ -47,7 +59,7 @@ const SearchScreen = () => {
             />
           )}
 
-          <button type="button">Search</button>
+          {/* <button type="button">Search</button> */}
         </div>
         <div className="results__area">
           {loading ? (

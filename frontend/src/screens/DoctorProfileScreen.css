@@ -122,17 +122,30 @@
 .appts__side > h2 {
   font-size: 35px;
 }
+
+.updatedInfoDoc__msg {
+  color: #f4f4f4;
+  font-size: 17px;
+  background-color: #023047;
+  border-radius: 5px;
+  padding: 22px 75px;
+  text-align: center;
+}
+
 table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
   width: 100%;
 }
 
-td,
-th {
+td {
   border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+  text-align: center;
+  padding: 22px;
+}
+th {
+  text-align: center;
+  background-color: #023047;
+  color: white;
+  padding: 2px;
 }
 
 tr:nth-child(even) {

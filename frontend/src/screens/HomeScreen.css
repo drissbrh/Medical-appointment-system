@@ -37,32 +37,25 @@
 .headline > p:last-child {
   font-size: 1rem;
 }
-.homescreen__input > input {
-  outline: none;
-  font-size: 1rem;
-  border-radius: 5px 0px 0px 5px;
-  border: 1px solid #ffffff;
-  padding: 15px;
-  transition: 0.3s ease-in-out;
-}
 
-.homescreen__input {
-  display: grid;
-  background-color: white;
-  grid-template-columns: 2fr 0.3fr;
-  align-items: center;
-  border-radius: 5px;
-  height: 70px;
-  width: 370px;
-}
-.homescreen__input > div {
+.headline > a {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 15px;
   background-color: #023047;
-  border-radius: 0px 5px 5px 0px;
+  border-radius: 9px 9px 9px 9px;
+  width: 300px;
   height: 70px;
-  cursor: pointer;
+  font-size: 25px;
+  color: white;
+  text-decoration: none;
+
+  transition: 0.2s ease-in-out;
+}
+
+.headline > a:hover {
+  transform: scale(1.1);
 }
 .search__icon {
   cursor: pointer;

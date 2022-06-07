@@ -2,9 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./PatientProfileScreen.css";
 import patientPic from "../assets/patient.png";
-import { getPatientAppts } from "../redux/actions/appointmentActions";
-import { ListDoctorDetails } from "../redux/actions/doctorActions";
+import {
+  getPatientAppts,
+  deleteAppointment,
+} from "../redux/actions/appointmentActions";
 import PatientRow from "../components/PatientRow";
+import {
+  getPatientProfile,
+  UpdatePatientProfile,
+} from "../redux/actions/patientActions";
+import { PATIENT_UPDATE_PROFILE_RESET } from "../redux/constants/patientConstants";
 
 const PatientProfileScreen = () => {
   const [name, setName] = useState("");
@@ -19,18 +26,36 @@ const PatientProfileScreen = () => {
   const patientLogin = useSelector((state) => state.patientLogin);
   const { patientInfo, patError, loading } = patientLogin;
 
+  const patientProfile = useSelector((state) => state.patientProfile);
+  const { patientProfiler } = patientProfile;
+
+  const apptDelete = useSelector((state) => state.apptDelete);
+  const { success: successDelete } = apptDelete;
+
+  const patientProfileUpdate = useSelector(
+    (state) => state.patientProfileUpdate
+  );
+  const { success } = patientProfileUpdate;
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const handleModification = () => {};
+  const handleModification = () => {
+    dispatch(
+      UpdatePatientProfile(patientInfo._id, { name, email, newPassword })
+    );
+  };
 
-  const handleDelete = () => {};
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteAppointment(id));
+    }
+  };
   useEffect(() => {
-    //dispatch(getDoctorAppts(patientInfo._id));
     dispatch(getPatientAppts(patientInfo._id));
-    //dispatch(ListDoctorDetails(doctorAppts));
-  }, [dispatch, patientInfo]);
+    dispatch(getPatientProfile(patientInfo._id));
+  }, [dispatch, patientInfo, successDelete]);
 
   return (
     <div className="profilescreen">
@@ -38,61 +63,56 @@ const PatientProfileScreen = () => {
       <form className="profile__elements" onSubmit={handleSubmit}>
         <div className="info__side">
           <h2>My personal info</h2>
-          {loading ? (
-            <div className="loading">
-              <div className="spinner"></div>
-            </div>
-          ) : patError ? (
-            <h3>{patError}</h3>
-          ) : (
+          {patientProfiler && (
             <>
-              {
-                <>
-                  <div className="profile__details">
-                    <img src={patientPic} alt="profile pic" />
-                    <p>{patientInfo.name.split(" ")[0].toUpperCase()}</p>
-                  </div>
-                  <>
-                    <div className="name__section">
-                      <label>Name</label>
-                      <input
-                        type="name"
-                        placeholder={patientInfo.name}
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="name__section">
-                      <label>Email</label>
-                      <input
-                        type="email"
-                        placeholder={patientInfo.email}
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="name__section">
-                      <label>Password</label>
-                      <input
-                        type="password"
-                        placeholder="Enter your new password"
-                        value={newPassword}
-                        onChange={(e) => {
-                          setNewPassword(e.target.value);
-                        }}
-                      />
-                    </div>
+              <div className="profile__details">
+                <img src={patientPic} alt="profile pic" />
+                <p>{patientProfiler.name}</p>
+              </div>
+              <>
+                <div className="name__section">
+                  <label>Name</label>
+                  <input
+                    type="name"
+                    placeholder={patientProfiler.name}
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="name__section">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder={patientProfiler.email}
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="name__section">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="Enter your new password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                    }}
+                  />
+                </div>
 
-                    <button type="submit" onClick={""}>
-                      Update personal info
-                    </button>
-                  </>
-                </>
-              }
+                <button type="submit" onClick={handleModification}>
+                  Update personal info
+                </button>
+                {success && (
+                  <p className="updatedInfo__msg">
+                    Your personal info are being updated
+                  </p>
+                )}
+              </>
             </>
           )}
         </div>
@@ -113,9 +133,9 @@ const PatientProfileScreen = () => {
                 patientAppts.map((p) => (
                   <PatientRow
                     click={handleModification}
-                    clickDelete={handleDelete}
+                    clickDelete={deleteHandler}
                     identify={p._id}
-                    doctor={p.doctor}
+                    doctor={p.doctor.name}
                     bookingDate={p.bookingDate}
                     startingHour={p.startingHour}
                   />

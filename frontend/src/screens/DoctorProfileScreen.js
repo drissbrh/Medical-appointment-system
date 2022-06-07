@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import "./ProfileScreen.css";
 import medicalTeam from "../assets/medical-team.png";
 import { getDoctorAppts } from "../redux/actions/appointmentActions";
-import { ListDoctorDetails } from "../redux/actions/doctorActions";
 import DoctorRow from "../components/DoctorRow";
-import { doctorLoginReducer } from "../redux/reducers/DoctorReducer";
-import PatientRow from "../components/PatientRow";
+import {
+  getDoctorProfile,
+  UpdateDoctorProfile,
+} from "../redux/actions/doctorActions";
 
 const DoctorProfileScreen = () => {
   const [name, setName] = useState("");
@@ -25,17 +26,35 @@ const DoctorProfileScreen = () => {
   const doctorLogin = useSelector((state) => state.doctorLogin);
   const { doctorInfo, docError, docLoading } = doctorLogin;
 
+  const doctorProfile = useSelector((state) => state.doctorProfile);
+  const { doctorProfiler } = doctorProfile;
+
+  const doctorProfileUpdate = useSelector((state) => state.doctorProfileUpdate);
+
+  const { success } = doctorProfileUpdate;
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const handleModification = () => {};
+  const handleModification = () => {
+    dispatch(
+      UpdateDoctorProfile(doctorInfo._id, {
+        name,
+        email,
+        newPassword,
+        address,
+        city,
+        phoneNumber,
+        speciality,
+      })
+    );
+  };
 
-  const handleDelete = () => {};
   useEffect(() => {
+    dispatch(getDoctorProfile(doctorInfo._id));
     dispatch(getDoctorAppts(doctorInfo._id));
-    //dispatch(ListDoctorDetails(doctorAppts));
-  }, [dispatch, doctorInfo]);
+  }, [dispatch, doctorInfo, success]);
 
   return (
     <div className="profilescreen">
@@ -51,18 +70,18 @@ const DoctorProfileScreen = () => {
             <h3>{docError}</h3>
           ) : (
             <>
-              {
+              {doctorProfiler && (
                 <>
                   <div className="profile__details">
                     <img src={medicalTeam} alt="profile pic" />
-                    <p>{doctorInfo.name.split(" ")[0].toUpperCase()}</p>
+                    <p>{doctorProfiler.name}</p>
                   </div>
                   <>
                     <div className="name__section">
                       <label>Name</label>
                       <input
                         type="name"
-                        placeholder={doctorInfo.name}
+                        placeholder={doctorProfiler.name}
                         value={name}
                         onChange={(e) => {
                           setName(e.target.value);
@@ -73,7 +92,7 @@ const DoctorProfileScreen = () => {
                       <label>Email</label>
                       <input
                         type="email"
-                        placeholder={doctorInfo.email}
+                        placeholder={doctorProfiler.email}
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -96,7 +115,7 @@ const DoctorProfileScreen = () => {
                       <label>Address</label>
                       <input
                         type="text"
-                        placeholder={doctorInfo.address}
+                        placeholder={doctorProfiler.address}
                         value={address}
                         onChange={(e) => {
                           setAddress(e.target.value);
@@ -105,14 +124,34 @@ const DoctorProfileScreen = () => {
                     </div>
                     <div className="name__section">
                       <label>City</label>
-                      <input
-                        type="text"
-                        placeholder={doctorInfo.city}
+                      <select
                         value={city}
-                        onChange={(e) => {
-                          setCity(e.target.value);
-                        }}
-                      />
+                        className="spec__select"
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="Choose a city"
+                      >
+                        <option value={""}>Choose a City</option>
+                        <option value={"Casablanca"}>Casablanca</option>
+                        <option value={"Fes"}>Fes</option>
+                        <option value={"Tangier"}>Tangier</option>
+                        <option value={"Salé"}>Salé</option>
+                        <option value={"Marrakesh"}>Marrakesh</option>
+                        <option value={"Meknes"}>Meknes</option>
+                        <option value={"Rabat"}>Rabat</option>
+                        <option value={"Oujda"}>Oujda</option>
+                        <option value={"Agadir"}>Agadir</option>
+                        <option value={"Laayoune"}>Laayoune</option>
+                        <option value={"Tetouan"}>Tetouan</option>
+                        <option value={"Mohammedia"}>Mohammedia</option>
+                        <option value={"Essaouira"}>Essaouira</option>
+                        <option value={"Errachidia"}>Errachidia</option>
+                        <option value={"Settat"}>Settat</option>
+                        <option value={"Safi"}>Safi</option>
+                        <option value={"Taroudant"}>Taroudant</option>
+                        <option value={"Ouarzazate"}>Ouarzazate</option>
+                        <option value={"Ben Guerir"}>Ben Guerir</option>
+                        <option value={"Khouribga"}>Khouribga</option>
+                      </select>
                     </div>
                     <div className="name__section">
                       <label>Phone Number</label>
@@ -131,26 +170,45 @@ const DoctorProfileScreen = () => {
                       <select
                         value={speciality}
                         className="spec__select"
-                        placeholder="pic"
                         onChange={(e) => setSpeciality(e.target.value)}
                       >
+                        <option value={""}>Choose a Speciality</option>
                         <option value={"speciality"}>
                           Allergy and Immunology
                         </option>
-                        <option value={2}>Anesthesiology</option>
-                        <option value={3}>3</option>
-                        <option value={4}>4</option>
-                        <option value={5}>5</option>
-                        <option value={6}>6</option>
+                        <option value={"Anesthesiology"}>Anesthesiology</option>
+                        <option value={"Colon And Rectal Surgery"}>
+                          Colon And Rectal Surgery
+                        </option>
+                        <option value={"Cardiology"}>Cardiology</option>
+                        <option value={"Dermatology"}>Dermatology</option>
+                        <option value={"Physical Medicine And Rehabilitation"}>
+                          Physical Medicine And Rehabilitation
+                        </option>
+                        <option value={"Emergency medicine"}>
+                          Emergency medicine
+                        </option>
+                        <option value={"Internal medicine"}>
+                          Internal medicine
+                        </option>
+                        <option value={"Neurology"}>Neurology</option>
+                        <option value={"Ophthalmology"}>Ophthalmology</option>
+                        <option value={"Psychiatry"}>Psychiatry</option>
+                        <option value={"Surgery"}>Surgery</option>
                       </select>
                     </div>
 
-                    <button type="submit" onClick={""}>
+                    <button type="submit" onClick={handleModification}>
                       Update personal info
                     </button>
+                    {success && (
+                      <p className="updatedInfoDoc__msg">
+                        Your personal info are being updated
+                      </p>
+                    )}
                   </>
                 </>
-              }
+              )}
             </>
           )}
         </div>
@@ -159,23 +217,23 @@ const DoctorProfileScreen = () => {
           <h2>My Appointments</h2>
 
           <table>
-            <tr>
-              <th>patient</th>
-              <th>Hour</th>
-              <th>Day</th>
-              <th>Modify</th>
-              <th>Delete</th>
-            </tr>
-            {doctorAppts &&
-              doctorAppts.map((p) => (
-                <DoctorRow
-                  patientId={p.patient}
-                  hour={p.startingHour}
-                  day={p.bookingDate}
-                  click={handleModification}
-                  clickDelete={handleDelete}
-                />
-              ))}
+            <thead>
+              <tr>
+                <th>patient</th>
+                <th>Hour</th>
+                <th>Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              {doctorAppts &&
+                doctorAppts.map((p) => (
+                  <DoctorRow
+                    patientId={p.patient}
+                    hour={p.startingHour}
+                    day={p.bookingDate}
+                  />
+                ))}
+            </tbody>
           </table>
         </div>
       </form>

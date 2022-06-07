@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
+import Admin from "../models/adminModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -14,7 +14,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      req.user = await User.findById(decoded.id).select("-password");
+      req.admin = await Admin.findById(decoded.id).select("-password");
 
       next();
     } catch (error) {
@@ -31,7 +31,7 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 const admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+  if (req.admin && req.admin.isAdmin) {
     next();
   } else {
     res.status(401);
@@ -39,7 +39,7 @@ const admin = (req, res, next) => {
   }
 };
 
-const patient = (req, res, next) => {
+const patientMiddleware = (req, res, next) => {
   if (req.patient && req.patient.isPatient) {
     next();
   } else {
@@ -48,7 +48,7 @@ const patient = (req, res, next) => {
   }
 };
 
-const doctor = (req, res, next) => {
+const doctorMiddleware = (req, res, next) => {
   if (req.doctor && req.doctor.isDoctor) {
     next();
   } else {
@@ -57,4 +57,4 @@ const doctor = (req, res, next) => {
   }
 };
 
-export { protect, admin, patient };
+export { protect, admin, patientMiddleware, doctorMiddleware };

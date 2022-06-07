@@ -84,7 +84,7 @@ const registerDoctor = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/doctors/profile
 // @access  Private
 const getDoctorProfile = asyncHandler(async (req, res) => {
-  const doctor = await Doctor.findById(req.doctor._id);
+  const doctor = await Doctor.findById(req.params.id);
 
   if (doctor) {
     res.json({
@@ -94,6 +94,7 @@ const getDoctorProfile = asyncHandler(async (req, res) => {
       city: doctor.city,
       address: doctor.address,
       phoneNumber: doctor.phoneNumber,
+      speciality: doctor.speciality,
       isDoctor: doctor.isDoctor,
     });
   } else {
@@ -148,8 +149,8 @@ const getDoctorById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update doctor
-// @route   PUT /api/v1/doctors/:id
+// @desc    Update user
+// @route   PUT /api/users/:id
 // @access  Private/Admin
 const updateDoctor = asyncHandler(async (req, res) => {
   const doctor = await Doctor.findById(req.params.id);
@@ -157,25 +158,81 @@ const updateDoctor = asyncHandler(async (req, res) => {
   if (doctor) {
     doctor.name = req.body.name || doctor.name;
     doctor.email = req.body.email || doctor.email;
-    doctor.isAdmin = req.body.isAdmin;
+    doctor.password = req.body.password || doctor.password;
+    doctor.city = req.body.city || doctor.city;
+    doctor.address = req.body.address || doctor.address;
+    doctor.phoneNumber = req.body.phoneNumber || doctor.phoneNumber;
+    doctor.speciality = req.body.speciality || doctor.speciality;
 
     const updatedDoctor = await doctor.save();
 
     res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
+      _id: updatedDoctor._id,
+      name: updatedDoctor.name,
+      email: updatedDoctor.email,
+      password: updatedDoctor.password,
+      city: updatedDoctor.city,
+      address: updatedDoctor.address,
+      phoneNumber: updatedDoctor.phoneNumber,
+      speciality: updatedDoctor.speciality,
+      isDoctor: updatedDoctor.isDoctor,
     });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("patient not found");
   }
 });
 
-// @desc    Get All doctors
-// @route   GET /api/v1/doctors
-// @access  Private/Admin
+// @desc    Get All doctors By City
+// @route   GET /api/v1/doctors/search?keyword
+const getAllDoctorsByCity = asyncHandler(async (req, res) => {
+  //const doctors = await Doctor.find({}).select("-password");
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        city: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Doctor.countDocuments({ ...keyword });
+  const doctors = await Doctor.find({ ...keyword })
+    .select("-password")
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ doctors, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc    Get All doctors By Speciality
+// @route   GET /api/v1/doctors/search?keyword
+
+const getAllDoctorsBySpeciality = asyncHandler(async (req, res) => {
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        speciality: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Doctor.countDocuments({ ...keyword });
+  const doctors = await Doctor.find({ ...keyword })
+    .select("-password")
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ doctors, page, pages: Math.ceil(count / pageSize) });
+});
+
 const getAllDoctors = asyncHandler(async (req, res) => {
   const doctors = await Doctor.find({}).select("-password");
 
@@ -187,11 +244,30 @@ const getAllDoctors = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete doctor
+// @route   DELETE /api/v1/doctors/:id
+// @access  Private/Admin
+const deleteDoctor = asyncHandler(async (req, res) => {
+  const doctor = await Doctor.findById(req.params.id);
+
+  if (doctor) {
+    await doctor.remove();
+    res.json({ message: "doctor removed" });
+  } else {
+    res.status(404);
+    throw new Error("doctor not found");
+  }
+});
+
 export {
   authDoctor,
   registerDoctor,
   updateDoctorProfile,
+  getDoctorProfile,
   getAllDoctors,
+  getAllDoctorsByCity,
+  getAllDoctorsBySpeciality,
   getDoctorById,
   updateDoctor,
+  deleteDoctor,
 };

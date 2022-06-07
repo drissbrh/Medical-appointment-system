@@ -1,6 +1,7 @@
 import React from "react";
 
 const AllDoctorsRow = ({
+  ID,
   name,
   email,
   createdAt,
@@ -8,7 +9,6 @@ const AllDoctorsRow = ({
   city,
   address,
   speciality,
-  click,
   clickDelete,
 }) => {
   return (
@@ -21,7 +21,7 @@ const AllDoctorsRow = ({
       <td>{speciality}</td>
       <td>{createdAt}</td>
       <td>
-        <i className="fa-solid fa-trash" onClick={clickDelete}></i>
+        <i className="fa-solid fa-trash" onClick={() => clickDelete(ID)}></i>
       </td>
     </tr>
   );

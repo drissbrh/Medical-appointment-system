@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import "./AdminDashScreen.css";
 import admin from "../assets/admin.png";
 import { getAllAppts } from "../redux/actions/appointmentActions";
-import { listDoctors } from "../redux/actions/doctorActions";
-import DoctorRow from "../components/DoctorRow";
-import { listPatients } from "../redux/actions/patientActions";
-import PatientRow from "../components/PatientRow";
+import {
+  deleteDoctor,
+  listDoctorsBycity,
+} from "../redux/actions/doctorActions";
+
+import { deletePatient, listPatients } from "../redux/actions/patientActions";
+
 import AdminRow from "../components/AdminRow";
 import AllPatientsRow from "../components/AllPatientsRow";
 import AllDoctorsRow from "../components/AllDoctorsRow";
@@ -29,18 +32,29 @@ const AdminDashScreen = () => {
   const doctorList = useSelector((state) => state.doctorList);
   const { doctors } = doctorList;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const patientDelete = useSelector((state) => state.patientDelete);
+  const { success: patientDeleteSuccess } = patientDelete;
+
+  const doctorDelete = useSelector((state) => state.doctorDelete);
+  const { success: doctorDeleteSuccess } = doctorDelete;
+
+  const handleDeleteOfPatient = (id) => {
+    if (window.confirm("A Patient is about to be deleted, Are you sure ?")) {
+      dispatch(deletePatient(id));
+    }
   };
 
-  const handleModification = () => {};
+  const handleDeleteOfDoctor = (id) => {
+    if (window.confirm("A Doctor is about to be deleted, Are you sure ?")) {
+      dispatch(deleteDoctor(id));
+    }
+  };
 
-  const handleDelete = () => {};
   useEffect(() => {
     dispatch(getAllAppts());
-    dispatch(listDoctors());
+    dispatch(listDoctorsBycity());
     dispatch(listPatients());
-  }, [dispatch, adminInfo]);
+  }, [dispatch, adminInfo, patientDeleteSuccess, doctorDeleteSuccess]);
 
   return (
     <div className="admindashscreen">
@@ -65,82 +79,80 @@ const AdminDashScreen = () => {
           </>
         )}
       </div>
-
-      <div className="all__appts__side">
-        <h2>All Appointments</h2>
-        <table>
-          <tr>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Hour</th>
-            <th>Appointment Day</th>
-            <th>Created At</th>
-
-            <th>Delete</th>
-          </tr>
-          {allAppointments &&
-            allAppointments.map((p) => (
-              <AdminRow
-                click={handleModification}
-                clickDelete={handleDelete}
-                patient={p.patient}
-                doctor={p.doctor}
-                hour={p.startingHour}
-                day={p.bookingDate}
-                createdAt={p.createdAt}
-              />
-            ))}
-        </table>
-      </div>
-      <div className="all__appts__side">
-        <h2>All Doctors</h2>
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>City</th>
-            <th>Address</th>
-            <th>Speciality</th>
-            <th>Created At</th>
-            <th>Delete</th>
-          </tr>
-          {doctors &&
-            doctors.map((p) => (
-              <AllDoctorsRow
-                click={handleModification}
-                clickDelete={handleDelete}
-                name={p.name}
-                email={p.email}
-                phone={p.phoneNumber}
-                city={p.city}
-                address={p.address}
-                speciality={p.speciality}
-                createdAt={p.createdAt}
-              />
-            ))}
-        </table>
-      </div>
-      <div className="all__appts__side">
-        <h2>All Patients</h2>
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Delete</th>
-          </tr>
-          {patients &&
-            patients.map((p) => (
-              <AllPatientsRow
-                click={handleModification}
-                clickDelete={handleDelete}
-                name={p.name}
-                email={p.email}
-                createdAt={p.createdAt}
-              />
-            ))}
-        </table>
+      <div>
+        <div className="all__appts__side">
+          <h2>All Appointments</h2>
+          <table>
+            <tr>
+              <th>Patient</th>
+              <th>Doctor</th>
+              <th>Hour</th>
+              <th>Appointment Day</th>
+              <th>Created At</th>
+            </tr>
+            {allAppointments &&
+              allAppointments.map((p) => (
+                <AdminRow
+                  clickDelete={"handleDelete"}
+                  patient={p.patient}
+                  doctor={p.doctor}
+                  hour={p.startingHour}
+                  day={p.bookingDate}
+                  createdAt={p.createdAt}
+                />
+              ))}
+          </table>
+        </div>
+        <div className="all__appts__side">
+          <h2>All Doctors</h2>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>City</th>
+              <th>Address</th>
+              <th>Speciality</th>
+              <th>Created At</th>
+              <th>Delete</th>
+            </tr>
+            {doctors &&
+              doctors.map((p) => (
+                <AllDoctorsRow
+                  ID={p._id}
+                  clickDelete={handleDeleteOfDoctor}
+                  name={p.name}
+                  email={p.email}
+                  phone={p.phoneNumber}
+                  city={p.city}
+                  address={p.address}
+                  speciality={p.speciality}
+                  createdAt={p.createdAt}
+                />
+              ))}
+          </table>
+        </div>
+        <div className="all__appts__side">
+          <h2>All Patients</h2>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Created At</th>
+              <th>Delete</th>
+            </tr>
+            {patients &&
+              patients.map((p) => (
+                <AllPatientsRow
+                  ID={p._id}
+                  clickDelete={handleDeleteOfPatient}
+                  name={p.name}
+                  email={p.email}
+                  createdAt={p.createdAt}
+                />
+              ))}
+          </table>
+        </div>
       </div>
     </div>
   );

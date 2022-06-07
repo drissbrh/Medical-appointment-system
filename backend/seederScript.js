@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import colors from "colors";
-import users from "./data/usersData.js";
+
 import doctors from "./data/doctorData.js";
 import patients from "./data/patientData.js";
 //Models
-import User from "./models/userModel.js";
+
 import connectDB from "./config/db.js";
 import Doctor from "./models/doctorModel.js";
 import Patient from "./models/patientModel.js";
 import Appointment from "./models/appointmentModel.js";
+import Admin from "./models/adminModel.js";
+import adminUser from "./data/adminsData.js";
 
 dotenv.config();
 
@@ -17,12 +19,12 @@ connectDB();
 
 const importData = async () => {
   try {
-    await User.deleteMany();
+    await Admin.deleteMany();
     await Doctor.deleteMany();
     await Patient.deleteMany();
     await Appointment.deleteMany();
 
-    await User.insertMany(users);
+    await Admin.insertMany(adminUser);
     await Doctor.insertMany(doctors);
     await Patient.insertMany(patients);
 
@@ -36,7 +38,7 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await User.deleteMany();
+    await Admin.deleteMany();
     await Doctor.deleteMany();
     await Patient.deleteMany();
 

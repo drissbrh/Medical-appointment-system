@@ -21,7 +21,10 @@ const PatientRow = ({
         </Link>
       </td>
       <td>
-        <i className="fa-solid fa-trash" onClick={clickDelete}></i>
+        <i
+          className="fa-solid fa-trash"
+          onClick={() => clickDelete(identify)}
+        ></i>
       </td>
     </tr>
   );

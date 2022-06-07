@@ -1,25 +1,17 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ListPatientDetails } from "../redux/actions/patientActions";
+import React from "react";
 
-const DoctorRow = ({ click, clickDelete, patientId, hour, day }) => {
-  const dispatch = useDispatch();
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { patient } = patientDetails;
-  useEffect(() => {
-    dispatch(ListPatientDetails(patientId));
-  }, [dispatch, patientId]);
+const DoctorRow = ({ patientId, hour, day }) => {
   return (
     <tr>
-      <td>{patientId}</td>
+      {patientId ? (
+        <td>{patientId.name}</td>
+      ) : (
+        <td>
+          <b>User probably deleted</b>
+        </td>
+      )}
       <td>{hour}H00</td>
       <td>{day}</td>
-      <td>
-        <i className="fa-solid fa-wrench" onClick={click}></i>
-      </td>
-      <td>
-        <i className="fa-solid fa-trash" onClick={clickDelete}></i>
-      </td>
     </tr>
   );
 };

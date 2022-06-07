@@ -1,6 +1,6 @@
 import React from "react";
 import "./SearchItem.css";
-import doctor1 from "../assets/doctor_page.jpg";
+import doctor1 from "../assets/doc1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 

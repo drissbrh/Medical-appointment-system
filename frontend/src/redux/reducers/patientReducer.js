@@ -1,4 +1,7 @@
 import {
+  PATIENT_DELETE_FAIL,
+  PATIENT_DELETE_REQUEST,
+  PATIENT_DELETE_SUCCESS,
   PATIENT_DETAILS_FAIL,
   PATIENT_DETAILS_REQUEST,
   PATIENT_DETAILS_SUCCESS,
@@ -10,7 +13,16 @@ import {
   PATIENT_LOGIN_REQUEST,
   PATIENT_LOGIN_SUCCESS,
   PATIENT_LOGOUT,
+  PATIENT_PROFILE_FAIL,
+  PATIENT_PROFILE_REQUEST,
+  PATIENT_PROFILE_SUCCESS,
+  PATIENT_REGISTER_FAIL,
   PATIENT_REGISTER_REQUEST,
+  PATIENT_REGISTER_SUCCESS,
+  PATIENT_UPDATE_PROFILE_FAIL,
+  PATIENT_UPDATE_PROFILE_REQUEST,
+  PATIENT_UPDATE_PROFILE_RESET,
+  PATIENT_UPDATE_PROFILE_SUCCESS,
 } from "../constants/patientConstants";
 
 export const patientLoginReducer = (state = {}, action) => {
@@ -32,9 +44,9 @@ export const PatientRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case PATIENT_REGISTER_REQUEST:
       return { loading: true };
-    case PATIENT_REGISTER_REQUEST:
+    case PATIENT_REGISTER_SUCCESS:
       return { loading: false, patientInfo: action.payload };
-    case PATIENT_REGISTER_REQUEST:
+    case PATIENT_REGISTER_FAIL:
       return { loading: false, patError: action.payload };
     case PATIENT_LOGOUT:
       return {};
@@ -66,6 +78,50 @@ export const patientsListReducer = (state = { patients: [] }, action) => {
       return { patientsListLoading: false, patientsListError: action.payload };
     case PATIENT_LIST_RESET:
       return { patients: [] };
+    default:
+      return state;
+  }
+};
+
+export const patientProfileReducer = (
+  state = { patientProfiler: {} },
+  action
+) => {
+  switch (action.type) {
+    case PATIENT_PROFILE_REQUEST:
+      return { loading: true };
+    case PATIENT_PROFILE_SUCCESS:
+      return { loading: false, patientProfiler: action.payload };
+    case PATIENT_PROFILE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const patientUpdateProfileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_UPDATE_PROFILE_REQUEST:
+      return { loading: true };
+    case PATIENT_UPDATE_PROFILE_SUCCESS:
+      return { loading: false, success: true, patientInfo: action.payload };
+    case PATIENT_UPDATE_PROFILE_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_UPDATE_PROFILE_RESET:
+      return { state: {} };
+    default:
+      return state;
+  }
+};
+
+export const patientDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_DELETE_REQUEST:
+      return { loading: true };
+    case PATIENT_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_DELETE_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

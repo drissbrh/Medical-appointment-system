@@ -9,7 +9,6 @@ const DoctorCard = ({ name, city, address, phone, spec }) => {
       <div className="card__left">
         <img src={doctor_page} alt="doctor_image" />
         <h2>{name}</h2>
-        <Rating value={4.6} />
       </div>
       <div className="card__right">
         {/* <div className="info__section">

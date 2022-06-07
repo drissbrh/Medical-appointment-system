@@ -121,7 +121,7 @@ const UpdateAppointmentScreen = () => {
         <div className="appoint__inputs">
           <input type="date" onChange={HandleDate} />
           <div>
-            <span className="morning">
+            <span className="morning1">
               <p>Morning</p>
               <div className="hours__inputs">
                 <input
@@ -160,7 +160,7 @@ const UpdateAppointmentScreen = () => {
                 <label>11-12</label>
               </div>
             </span>
-            <span className="morning">
+            <span className="morning1">
               <p>Afternoon</p>
               <div className="hours__inputs">
                 <input

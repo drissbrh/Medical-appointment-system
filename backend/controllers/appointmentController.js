@@ -6,6 +6,7 @@ import Appointment from "../models/appointmentModel.js";
 // @access  Private
 const addAppointment = asyncHandler(async (req, res) => {
   const { startingHour, bookingDate, patient, doctor } = req.body;
+
   const appointmentExists = await Appointment.findOne({
     bookingDate: req.body.bookingDate,
     startingHour: req.body.startingHour,
@@ -65,7 +66,11 @@ const updateAppointment = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appts/myappts
 // @access  Private
 const getMyApptsAsPatient = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({ patient: req.params.patient });
+  const appointments = await Appointment.find({
+    patient: req.params.patient,
+  })
+    .populate("doctor", "id name")
+    .populate("patient", "id name");
   res.json(appointments);
 });
 
@@ -73,7 +78,10 @@ const getMyApptsAsPatient = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appts/myappts
 // @access  Private
 const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({ doctor: req.params.doctor });
+  const appointments = await Appointment.find({ doctor: req.params.doctor })
+    .populate("patient", "id name")
+    .populate("doctor", "id name");
+
   res.json(appointments);
 });
 
@@ -81,13 +89,30 @@ const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appointments
 // @access  Private/Admin
 const getAllAppointments = asyncHandler(async (req, res) => {
-  const appointments = await Appointment.find({});
+  const appointments = await Appointment.find({})
+    .populate("patient", "id name")
+    .populate("doctor", "id name");
 
   if (appointments) {
     res.json(appointments);
   } else {
     res.status(404);
     throw new Error("Patient not found");
+  }
+});
+
+// @desc    Delete a appointment
+// @route   DELETE /api/v1/appointments/:id
+// @access  Private/Admin
+const deleteAppointment = asyncHandler(async (req, res) => {
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (appointment) {
+    await appointment.remove();
+    res.json({ message: "Appointment removed" });
+  } else {
+    res.status(404);
+    throw new Error("appointment not found");
   }
 });
 export {
@@ -97,4 +122,5 @@ export {
   getMyApptsAsPatient,
   getMyApptsAsDoctor,
   getAllAppointments,
+  deleteAppointment,
 };

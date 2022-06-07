@@ -1,6 +1,10 @@
 import express from "express";
 const appointmentRouter = express.Router();
-import { admin, patient, protect } from "../middleware/authMiddleware.js";
+import {
+  admin,
+  patientMiddleware,
+  protect,
+} from "../middleware/authMiddleware.js";
 import {
   addAppointment,
   getAppointmentById,
@@ -8,6 +12,7 @@ import {
   getMyApptsAsPatient,
   updateAppointment,
   getAllAppointments,
+  deleteAppointment,
 } from "../controllers/appointmentController.js";
 
 appointmentRouter
@@ -15,7 +20,10 @@ appointmentRouter
   .post(addAppointment)
   .get(protect, admin, getAllAppointments);
 appointmentRouter.route("/update/:id").put(updateAppointment);
-appointmentRouter.route("/:id").get(protect, getAppointmentById);
+appointmentRouter
+  .route("/:id")
+  .get(protect, getAppointmentById)
+  .delete(deleteAppointment);
 
 //as patient
 appointmentRouter
