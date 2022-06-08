@@ -33,7 +33,13 @@ const addAppointment = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/appts/:id
 // @access  Private
 const getAppointmentById = asyncHandler(async (req, res) => {
-  const appointment = await Appointment.findById(req.params.id);
+  const appointment = await Appointment.findById(req.params.id)
+    .populate("patient", "id name")
+    .populate(
+      "doctor",
+      "id name email password phoneNumber city address speciality"
+    )
+    .sort({ bookingDate: 1 });
 
   if (appointment) {
     res.json(appointment);
@@ -52,10 +58,16 @@ const updateAppointment = asyncHandler(async (req, res) => {
   if (appointment) {
     appointment.bookingDate = req.body.bookingDate;
     appointment.startingHour = req.body.startingHour;
-
-    const updatedAppointment = await appointment.save();
-
-    res.json(updatedAppointment);
+    const appointmentExists = await Appointment.findOne({
+      bookingDate: appointment.bookingDate,
+      startingHour: appointment.startingHour,
+    });
+    if (appointmentExists) {
+      throw new Error("Appointment already Taken");
+    } else {
+      await appointment.save();
+      res.json(appointment);
+    }
   } else {
     res.status(404);
     throw new Error("appointment not found");
@@ -70,7 +82,8 @@ const getMyApptsAsPatient = asyncHandler(async (req, res) => {
     patient: req.params.patient,
   })
     .populate("doctor", "id name")
-    .populate("patient", "id name");
+    .populate("patient", "id name")
+    .sort({ bookingDate: 1 });
   res.json(appointments);
 });
 
@@ -80,7 +93,8 @@ const getMyApptsAsPatient = asyncHandler(async (req, res) => {
 const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
   const appointments = await Appointment.find({ doctor: req.params.doctor })
     .populate("patient", "id name")
-    .populate("doctor", "id name");
+    .populate("doctor", "id name")
+    .sort({ bookingDate: 1 });
 
   res.json(appointments);
 });
@@ -91,7 +105,8 @@ const getMyApptsAsDoctor = asyncHandler(async (req, res) => {
 const getAllAppointments = asyncHandler(async (req, res) => {
   const appointments = await Appointment.find({})
     .populate("patient", "id name")
-    .populate("doctor", "id name");
+    .populate("doctor", "id name")
+    .sort({ bookingDate: 1 });
 
   if (appointments) {
     res.json(appointments);

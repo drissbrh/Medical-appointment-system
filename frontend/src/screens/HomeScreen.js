@@ -28,7 +28,7 @@ const HomeScreen = () => {
             <p>
               We can help you find available vaccine appointments
               <br />
-              near you or notify you when availability opens up.
+              near you.
             </p>
 
             <Link to="/search">
@@ -60,9 +60,7 @@ const HomeScreen = () => {
               <p>
                 We can help you find available
                 <br />
-                vaccine appointments near you or
-                <br />
-                notify you when availability.
+                vaccine appointments near you.
               </p>
             </span>
             <span className="step1">
