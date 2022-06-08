@@ -1,0 +1,61 @@
+.aboutusthree {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+}
+
+.aboutusthree__images {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(2, 250px);
+  column-gap: 25px;
+  row-gap: 25px;
+}
+
+.aboutusthree__images > img {
+  width: 250px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+.forText__three {
+}
+
+.forText__three {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.forText__three > h2 {
+  color: #023e8a;
+  font-weight: 800;
+}
+.forText__three > h5 {
+  color: #00b4d8;
+}
+.forText__three > p {
+  color: #adb5bd;
+  font-size: 19px;
+}
+.forText__three > a {
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  text-decoration: none;
+  color: aliceblue;
+  border-radius: 10px;
+  background-color: #023e8a;
+  transition: 0.2s ease-in-out;
+}
+
+.forText__three > a:hover {
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  text-decoration: none;
+  color: aliceblue;
+  border-radius: 10px;
+  background-color: #00b4d8;
+}

@@ -4,6 +4,7 @@ import SearchItem from "../components/SearchItem";
 import "./SearchScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  listDoctorsByBoth,
   listDoctorsBycity,
   listDoctorsBySpec,
 } from "../redux/actions/doctorActions";
@@ -20,11 +21,14 @@ const SearchScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //dispatch(listDoctors(search, pageNumber));
     if (filterType === "city") {
-      dispatch(listDoctorsBycity(search, pageNumber));
-    } else {
-      dispatch(listDoctorsBySpec(search, pageNumber));
+      dispatch(listDoctorsBycity(search, ""));
+    }
+    if (filterType === "speciality") {
+      dispatch(listDoctorsBySpec(search, ""));
+    }
+    if (filterType === "spec and city") {
+      dispatch(listDoctorsByBoth(search, ""));
     }
   }, [dispatch, search, filterType]);
   return (
@@ -36,11 +40,12 @@ const SearchScreen = () => {
             <label>Search By</label>
             <select
               value={filterType}
-              className=""
+              className="filter__type"
               onChange={(e) => setFilterType(e.target.value)}
             >
               <option value={"city"}>City</option>
               <option value={"speciality"}>Speciality</option>
+              <option value={"spec and city"}>spec and city</option>
             </select>
           </div>
           {filterType === "city" ? (
@@ -50,12 +55,19 @@ const SearchScreen = () => {
               placeholder="Search by city"
               onChange={(e) => setSearch(e.target.value)}
             />
-          ) : (
+          ) : filterType === "speciality" ? (
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by speciality"
+            />
+          ) : (
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by spec and city"
             />
           )}
 

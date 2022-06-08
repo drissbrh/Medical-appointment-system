@@ -107,6 +107,22 @@ export const DoctorListBySpecReducer = (state = { doctors: [] }, action) => {
   }
 };
 
+export const DoctorListByBothReducer = (state = { doctors: [] }, action) => {
+  switch (action.type) {
+    case DOCTOR_LIST_REQUEST:
+      return { loading: true, doctors: [] };
+    case DOCTOR_LIST_SUCCESS:
+      return {
+        loading: false,
+        doctors: action.payload.doctors,
+      };
+    case DOCTOR_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const doctorDetailReducer = (state = { doctor: {} }, action) => {
   switch (action.type) {
     case DOCTOR_DETAILS_REQUEST:

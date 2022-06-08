@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import {
   doctorDeleteReducer,
   doctorDetailReducer,
+  DoctorListByBothReducer,
   DoctorListBySpecReducer,
   DoctorListReducer,
   doctorLoginReducer,
@@ -44,6 +45,7 @@ const reducer = combineReducers({
   doctorRegister: DoctorRegisterReducer,
   doctorList: DoctorListReducer,
   DoctorListBySpec: DoctorListBySpecReducer,
+  doctorListByBoth: DoctorListByBothReducer,
   doctorDetails: doctorDetailReducer,
   doctorProfile: doctorProfileReducer,
   doctorProfileUpdate: doctorUpdateProfileReducer,

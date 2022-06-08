@@ -233,6 +233,39 @@ const getAllDoctorsBySpeciality = asyncHandler(async (req, res) => {
   res.json({ doctors, page, pages: Math.ceil(count / pageSize) });
 });
 
+// @desc    Get All doctors By City &
+// @route   GET /api/v1/doctors/search?keyword
+const getAllDoctorsByCitySpec = asyncHandler(async (req, res) => {
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+
+  /*const keyword = req.query.keyword
+    ? {
+        speciality: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+        city: {
+          $regex: req.query.keyword,
+          $options: "j",
+        },
+      }
+    : {};*/
+  let value = req.query.keyword;
+  let regex = new RegExp(value, "i");
+  const doctors = await Doctor.find({
+    $and: [{ $or: [{ city: regex }, { speciality: regex }] }],
+  });
+
+  // const count = await Doctor.countDocuments({ ...keyword });
+  // const doctors = await Doctor.find({ ...keyword })
+  //   .select("-password")
+  //   .limit(pageSize)
+  //   .skip(pageSize * (page - 1));
+
+  res.json({ doctors });
+});
+
 const getAllDoctors = asyncHandler(async (req, res) => {
   const doctors = await Doctor.find({}).select("-password");
 
@@ -267,6 +300,7 @@ export {
   getAllDoctors,
   getAllDoctorsByCity,
   getAllDoctorsBySpeciality,
+  getAllDoctorsByCitySpec,
   getDoctorById,
   updateDoctor,
   deleteDoctor,

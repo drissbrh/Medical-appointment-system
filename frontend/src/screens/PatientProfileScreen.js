@@ -135,7 +135,7 @@ const PatientProfileScreen = () => {
                     click={handleModification}
                     clickDelete={deleteHandler}
                     identify={p._id}
-                    doctor={p.doctor.name}
+                    doctor={p.doctor}
                     bookingDate={p.bookingDate}
                     startingHour={p.startingHour}
                   />

@@ -9,6 +9,7 @@ import {
   updateDoctor,
   getAllDoctorsByCity,
   getAllDoctorsBySpeciality,
+  getAllDoctorsByCitySpec,
   deleteDoctor,
 } from "../controllers/doctorController.js";
 import {
@@ -21,6 +22,7 @@ doctorRouter.route("/").post(registerDoctor).get(getAllDoctors);
 
 doctorRouter.route("/search/city").get(getAllDoctorsByCity);
 doctorRouter.route("/search/spec").get(getAllDoctorsBySpeciality);
+doctorRouter.route("/search/both").get(getAllDoctorsByCitySpec);
 doctorRouter.post("/login", authDoctor);
 doctorRouter.get("/profile/:id", getDoctorProfile);
 

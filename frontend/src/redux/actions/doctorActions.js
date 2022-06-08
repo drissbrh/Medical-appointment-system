@@ -193,6 +193,36 @@ export const listDoctorsBySpec =
     }
   };
 
+export const listDoctorsByBoth =
+  (keyword = "", pageNumber = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: DOCTOR_LIST_REQUEST,
+      });
+      const { data } = await axios.get(
+        `/api/v1/doctors/search/both?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
+
+      dispatch({
+        type: DOCTOR_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logoutDoctor());
+      }
+      dispatch({
+        type: DOCTOR_LIST_FAIL,
+        payload: message,
+      });
+    }
+  };
+
 export const ListDoctorDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({

@@ -7,8 +7,8 @@ const AdminRow = ({
   hour,
   day,
   createdAt,
-  click,
-  clickDelete,
+  ID,
+  clickDeleteAppt,
 }) => {
   return (
     <tr>
@@ -29,6 +29,12 @@ const AdminRow = ({
       <td>{hour}h00</td>
       <td>{day}</td>
       <td>{createdAt}</td>
+      <td>
+        <i
+          className="fa-solid fa-trash"
+          onClick={() => clickDeleteAppt(ID)}
+        ></i>
+      </td>
     </tr>
   );
 };

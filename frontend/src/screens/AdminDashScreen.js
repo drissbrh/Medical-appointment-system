@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./AdminDashScreen.css";
 import admin from "../assets/admin.png";
-import { getAllAppts } from "../redux/actions/appointmentActions";
+import {
+  deleteAppointment,
+  deleteAppointmentByAdmin,
+  getAllAppts,
+} from "../redux/actions/appointmentActions";
 import {
   deleteDoctor,
   listDoctorsBycity,
@@ -32,11 +36,20 @@ const AdminDashScreen = () => {
   const doctorList = useSelector((state) => state.doctorList);
   const { doctors } = doctorList;
 
+  const apptDelete = useSelector((state) => state.apptDelete);
+  const { success: successDeleteAppt } = apptDelete;
+
   const patientDelete = useSelector((state) => state.patientDelete);
   const { success: patientDeleteSuccess } = patientDelete;
 
   const doctorDelete = useSelector((state) => state.doctorDelete);
   const { success: doctorDeleteSuccess } = doctorDelete;
+
+  const handleDeleteOfAppts = (id) => {
+    if (window.confirm("You want to delete this appointment?")) {
+      dispatch(deleteAppointmentByAdmin(id));
+    }
+  };
 
   const handleDeleteOfPatient = (id) => {
     if (window.confirm("A Patient is about to be deleted, Are you sure ?")) {
@@ -54,7 +67,13 @@ const AdminDashScreen = () => {
     dispatch(getAllAppts());
     dispatch(listDoctorsBycity());
     dispatch(listPatients());
-  }, [dispatch, adminInfo, patientDeleteSuccess, doctorDeleteSuccess]);
+  }, [
+    dispatch,
+    adminInfo,
+    successDeleteAppt,
+    patientDeleteSuccess,
+    doctorDeleteSuccess,
+  ]);
 
   return (
     <div className="admindashscreen">
@@ -89,11 +108,13 @@ const AdminDashScreen = () => {
               <th>Hour</th>
               <th>Appointment Day</th>
               <th>Created At</th>
+              <th>Delete</th>
             </tr>
             {allAppointments &&
               allAppointments.map((p) => (
                 <AdminRow
-                  clickDelete={"handleDelete"}
+                  ID={p._id}
+                  clickDeleteAppt={handleDeleteOfAppts}
                   patient={p.patient}
                   doctor={p.doctor}
                   hour={p.startingHour}

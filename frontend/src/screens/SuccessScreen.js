@@ -29,8 +29,6 @@ const SuccessScreen = () => {
     if (appointment && id !== appointment._id) {
       dispatch(getAppointmentDetails(id));
     }
-    dispatch(ListDoctorDetails(appointment.doctor));
-    dispatch(ListPatientDetails(appointment.patient));
   }, [dispatch, id, appointment]);
 
   return (
@@ -38,49 +36,50 @@ const SuccessScreen = () => {
       <div className="successScreen__inside">
         <h1>Congratulations 🎉</h1>
         <p>Your appointment is made !</p>
-        {doctor && patient && (
-          <>
-            <div className="appt__details">
-              <div className="appt__in__details">
-                <div className="patient__details">
-                  <img src={patientPic} alt="patient" />
-                  <h3>{patient.name}</h3>
-                </div>
-                <div className="doctor__details">
-                  <img src={doc1} alt="doc" />
-                  <h3>{doctor.name}</h3>
-                  <div>
-                    <p>
-                      <span>Phone Number</span>: {doctor.phoneNumber}
-                    </p>
-                    <p>
-                      <span>Speciality</span>: {doctor.speciality}
-                    </p>
-                    <p>
-                      <span>address</span>: {doctor.address}
-                    </p>
-                    <p>
-                      <span>City</span>: {doctor.city}
-                    </p>
-                  </div>
-                </div>
+        <div className="appt__details">
+          <div className="appt__in__details">
+            {appointment.patient && (
+              <div className="patient__details">
+                <img src={patientPic} alt="patient" />
+                <h3>{appointment.patient.name}</h3>
               </div>
-              <div className="appointmentDetails">
+            )}
+            {appointment.doctor && (
+              <div className="doctor__details">
+                <img src={doc1} alt="doc" />
+                <h3>{appointment.doctor.name}</h3>
                 <div>
                   <p>
-                    <span>Starting Hour</span>:{"  "}
-                    {appointment.startingHour}h00
+                    <span>Phone Number</span>: {appointment.doctor.phoneNumber}
                   </p>
-                </div>
-                <div>
                   <p>
-                    <span>Date</span>: {appointment.bookingDate}
+                    <span>Speciality</span>: {appointment.doctor.speciality}
+                  </p>
+                  <p>
+                    <span>address</span>: {appointment.doctor.address}
+                  </p>
+                  <p>
+                    <span>City</span>: {appointment.doctor.city}
                   </p>
                 </div>
               </div>
+            )}
+          </div>
+          <div className="appointmentDetails">
+            <div>
+              <p>
+                <span>Starting Hour</span>:{"  "}
+                {appointment.startingHour}h00
+              </p>
             </div>
-          </>
-        )}
+            <div>
+              <p>
+                <span>Date</span>: {appointment.bookingDate}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <button type="button" className="modify__">
           <Link to={`/appointment/update/${appointment._id}`}>
             Go Update my appointment

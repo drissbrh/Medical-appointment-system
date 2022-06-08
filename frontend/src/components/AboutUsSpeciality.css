@@ -1,0 +1,12 @@
+.one__spec {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.one__spec > img {
+  width: 128px;
+  height: 128px;
+}

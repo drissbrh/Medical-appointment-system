@@ -12,6 +12,12 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const [toggle, setToggle] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  const toggler = () => {
+    toggle ? setToggle(false) : setToggle(true);
+  };
 
   const patientLogin = useSelector((state) => state.patientLogin);
   const { patLoading, patError, patientInfo } = patientLogin;
@@ -30,8 +36,13 @@ const LoginScreen = () => {
   //
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginDoctor(email, password));
-    //dispatch(loginPatient(email, password));
+    if (!toggle) {
+      dispatch(loginPatient(email, password));
+    }
+
+    if (toggle) {
+      dispatch(loginDoctor(email, password));
+    }
   };
 
   return (
@@ -52,6 +63,21 @@ const LoginScreen = () => {
         <></>
       )}
       <form onSubmit={handleSubmit} className="form__elements">
+        <div className="switch__section">
+          <div className="patient__doctor">
+            <i className="fa-solid fa-bed"></i>
+            <p>As a Patient</p>
+          </div>
+
+          <label className="switch">
+            <input type="checkbox" checked={toggle} onClick={toggler} />
+            <span className="slider1 round"></span>
+          </label>
+          <div className="patient__doctor">
+            <p>As a Doctor</p>
+            <i className="fa-solid fa-user-doctor"></i>
+          </div>
+        </div>
         <div className="username__section">
           <label>Email</label>
           <input

@@ -1,6 +1,11 @@
 .aboutus {
   position: absolute;
   height: 75vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
   top: 50%;
   left: 50%;
   font-size: 1.5rem;
@@ -12,19 +17,67 @@
   flex-direction: column;
   gap: 50px;
   padding-bottom: 2rem;
+  padding-top: 4rem;
 }
 .One__section {
   display: flex;
   gap: 55px;
   align-items: center;
 }
+
 .for__image {
 }
 
 .for__image > img {
-  border-radius: 15px;
+  border-radius: 25px;
   object-fit: cover;
-  width: 200px;
-  height: 300px;
-  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  height: 500px;
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1);
+}
+
+.for__Text {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.for__Text > h2 {
+  color: #023e8a;
+  font-weight: 800;
+}
+.for__Text > h5 {
+  color: #00b4d8;
+}
+.for__Text > p {
+  color: #adb5bd;
+}
+.two__section {
+  display: flex;
+  flex-direction: column;
+  gap: 55px;
+  align-items: center;
+}
+.two__section__upper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+.two__section__upper > h2 {
+  color: #023e8a;
+  font-weight: 800;
+}
+.two__section__upper > p {
+  font-size: 19px;
+  color: #adb5bd;
+}
+
+.specialities {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(3, 300px);
+  grid-template-rows: repeat(3, 200px);
+  column-gap: 55px;
+  row-gap: 55px;
 }

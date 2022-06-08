@@ -44,8 +44,6 @@ const UpdateAppointmentScreen = () => {
     if (appointment && id !== appointment._id) {
       dispatch(getAppointmentDetails(id));
     }
-    dispatch(ListPatientDetails(patientInfo._id));
-    dispatch(ListDoctorDetails(appointment.doctor));
     if (updateApptSuccess) {
       navigate(`/profile/patient`);
       dispatch({
@@ -75,49 +73,55 @@ const UpdateAppointmentScreen = () => {
         </h1>
 
         <p>Your appointment is ready to be updated!</p>
-        {doctor && patient && (
-          <>
-            <div className="appt__update__details">
-              <div className="appt__in__details">
+
+        <>
+          <div className="appt__update__details">
+            <div className="appt__in__details">
+              {appointment.patient && (
                 <div className="patient_update_details">
                   <img src={patientPic} alt="patient" />
-                  <h3>{patient.name}</h3>
+                  <h3>{appointment.patient.name}</h3>
                 </div>
+              )}
+              {appointment.doctor && (
                 <div className="doctor_update_details">
                   <img src={doc1} alt="doc" />
-                  <h3>{doctor.name}</h3>
+                  <h3>{appointment.doctor.name}</h3>
                   <div>
                     <p>
-                      <span>Phone Number</span>: {doctor.phoneNumber}
+                      <span>Phone Number</span>:{" "}
+                      {appointment.doctor.phoneNumber}
                     </p>
                     <p>
-                      <span>Speciality</span>: {doctor.speciality}
+                      <span>Speciality</span>: {appointment.doctor.speciality}
                     </p>
                     <p>
-                      <span>address</span>: {doctor.address}
+                      <span>address</span>: {appointment.doctor.address}
                     </p>
                     <p>
-                      <span>City</span>: {doctor.city}
+                      <span>City</span>: {appointment.doctor.city}
                     </p>
                   </div>
                 </div>
+              )}
+            </div>
+
+            <div className="appointment__update__Details">
+              <div>
+                <p>
+                  <span>Starting Hour</span>:{"  "}
+                  {appointment.startingHour}h00
+                </p>
               </div>
-              <div className="appointment__update__Details">
-                <div>
-                  <p>
-                    <span>Starting Hour</span>:{"  "}
-                    {appointment.startingHour}h00
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <span>Date</span>: {appointment.bookingDate}
-                  </p>
-                </div>
+              <div>
+                <p>
+                  <span>Date</span>: {appointment.bookingDate}
+                </p>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </>
+
         <div className="appoint__inputs">
           <input type="date" onChange={HandleDate} />
           <div>

@@ -11,7 +11,13 @@ const PatientRow = ({
 }) => {
   return (
     <tr>
-      <td>{doctor}</td>
+      {doctor ? (
+        <td>{doctor.name}</td>
+      ) : (
+        <td>
+          <b>User probably deleted</b>
+        </td>
+      )}
       <td>{startingHour}H00</td>
       <td>{bookingDate}</td>
 
