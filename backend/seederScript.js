@@ -12,6 +12,8 @@ import Patient from "./models/patientModel.js";
 import Appointment from "./models/appointmentModel.js";
 import Admin from "./models/adminModel.js";
 import adminUser from "./data/adminsData.js";
+import Speciality from "./models/specialityModel.js";
+import specialities from "./data/specialityData.js";
 
 dotenv.config();
 
@@ -23,9 +25,10 @@ const importData = async () => {
     await Doctor.deleteMany();
     await Patient.deleteMany();
     await Appointment.deleteMany();
+    await Speciality.deleteMany();
 
+    await Speciality.insertMany(specialities);
     await Admin.insertMany(adminUser);
-    await Doctor.insertMany(doctors);
     await Patient.insertMany(patients);
 
     console.log("Data Imported!".green.inverse);
@@ -41,6 +44,7 @@ const destroyData = async () => {
     await Admin.deleteMany();
     await Doctor.deleteMany();
     await Patient.deleteMany();
+    await Speciality.deleteMany();
 
     console.log("Data Destroyed!".red.inverse);
     process.exit();

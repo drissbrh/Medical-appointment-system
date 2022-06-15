@@ -29,8 +29,9 @@ const doctorSchema = mongoose.Schema(
       required: true,
     },
     speciality: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Speciality",
     },
     isDoctor: {
       type: Boolean,
