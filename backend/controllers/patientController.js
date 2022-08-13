@@ -49,6 +49,7 @@ const getPatientProfile = asyncHandler(async (req, res) => {
       _id: patient._id,
       name: patient.name,
       email: patient.email,
+      image: patient.image,
       isPatient: patient.isPatient,
     });
   } else {
@@ -111,6 +112,7 @@ const updatePatient = asyncHandler(async (req, res) => {
   const patient = await Patient.findById(req.params.id);
 
   if (patient) {
+    patient.image = req.body.image || patient.image;
     patient.name = req.body.name || patient.name;
     patient.email = req.body.email || patient.email;
     patient.password = req.body.password || patient.password;
@@ -121,6 +123,7 @@ const updatePatient = asyncHandler(async (req, res) => {
       _id: updatedPatient._id,
       name: updatedPatient.name,
       email: updatedPatient.email,
+      image: updatedPatient.image,
       password: updatedPatient.password,
       isPatient: updatedPatient.isPatient,
     });

@@ -17,6 +17,9 @@ const patientSchema = new Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+    },
     isPatient: {
       type: Boolean,
       required: true,
@@ -25,14 +28,7 @@ const patientSchema = new Schema(
   },
   { timestamps: true }
 );
-/*
-appointment: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Appointment",
-      },
-    ],
-     */
+
 patientSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -91,6 +91,7 @@ const getDoctorProfile = asyncHandler(async (req, res) => {
       _id: doctor._id,
       name: doctor.name,
       email: doctor.email,
+      image: doctor.image,
       city: doctor.city,
       address: doctor.address,
       phoneNumber: doctor.phoneNumber,
@@ -111,6 +112,7 @@ const updateDoctorProfile = asyncHandler(async (req, res) => {
 
   if (doctor) {
     doctor.name = req.body.name || doctor.name;
+    doctor.image = req.body.image || doctor.image;
     doctor.email = req.body.email || doctor.email;
     doctor.city = req.body.city || doctor.city;
     doctor.address = req.body.address || doctor.address;
@@ -125,6 +127,7 @@ const updateDoctorProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: updatedDoctor._id,
       name: updatedDoctor.name,
+      image: updatedDoctor.image,
       email: updatedDoctor.email,
       isDoctor: updatedDoctor.isDoctor,
       token: generateToken(updatedDoctor._id),
@@ -158,6 +161,7 @@ const updateDoctor = asyncHandler(async (req, res) => {
   if (doctor) {
     doctor.name = req.body.name || doctor.name;
     doctor.email = req.body.email || doctor.email;
+    doctor.image = req.body.image || doctor.image;
     doctor.password = req.body.password || doctor.password;
     doctor.city = req.body.city || doctor.city;
     doctor.address = req.body.address || doctor.address;
@@ -170,6 +174,7 @@ const updateDoctor = asyncHandler(async (req, res) => {
       _id: updatedDoctor._id,
       name: updatedDoctor.name,
       email: updatedDoctor.email,
+      image: updatedDoctor.image,
       password: updatedDoctor.password,
       city: updatedDoctor.city,
       address: updatedDoctor.address,

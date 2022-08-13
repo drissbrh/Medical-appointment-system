@@ -86,6 +86,7 @@ const SearchScreen = () => {
                   identity={doc._id}
                   name={doc.name}
                   city={doc.city}
+                  docImage={doc.image}
                   phone={doc.phoneNumber}
                   address={doc.address}
                   spec={doc.speciality}
