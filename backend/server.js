@@ -9,6 +9,7 @@ import path from "path";
 import doctorRouter from "./routes/doctorRoutes.js";
 import appointmentRouter from "./routes/appointmentRoutes.js";
 import patientRouter from "./routes/patientRoutes.js";
+import uploadRouter from "./routes/uploadRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import adminRouter from "./routes/adminRoutes.js";
@@ -24,9 +25,11 @@ app.use("/api/v1/admin/", adminRouter);
 app.use("/api/v1/doctors", doctorRouter);
 app.use("/api/v1/appts/", appointmentRouter);
 app.use("/api/v1/patients", patientRouter);
+app.use("/api/v1/upload", uploadRouter);
 
 const __dirname = path.resolve();
-
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+/*
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
   app.get("*", (req, res) => {
@@ -37,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running....");
   });
 }
-
+*/
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;

@@ -7,6 +7,9 @@ const doctorSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -29,9 +32,8 @@ const doctorSchema = mongoose.Schema(
       required: true,
     },
     speciality: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: "Speciality",
     },
     isDoctor: {
       type: Boolean,

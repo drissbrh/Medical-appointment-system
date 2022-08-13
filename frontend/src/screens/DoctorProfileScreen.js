@@ -8,8 +8,11 @@ import {
   getDoctorProfile,
   UpdateDoctorProfile,
 } from "../redux/actions/doctorActions";
+import axios from "axios";
 
 const DoctorProfileScreen = () => {
+  const [image, setImage] = useState("profile");
+  const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -33,6 +36,33 @@ const DoctorProfileScreen = () => {
 
   const { success } = doctorProfileUpdate;
 
+  const handleUploadChange = (e) => {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  };
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/v1/upload", formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -44,6 +74,7 @@ const DoctorProfileScreen = () => {
         email,
         newPassword,
         address,
+        image,
         city,
         phoneNumber,
         speciality,
@@ -73,7 +104,15 @@ const DoctorProfileScreen = () => {
               {doctorProfiler && (
                 <>
                   <div className="profile__details">
-                    <img src={medicalTeam} alt="profile pic" />
+                    <img
+                      src={
+                        doctorProfiler.image
+                          ? doctorProfiler.image
+                          : medicalTeam
+                      }
+                      alt="profile pic"
+                    />
+                    <input type="file" onChange={uploadFileHandler} />
                     <p>{doctorProfiler.name}</p>
                   </div>
                   <>

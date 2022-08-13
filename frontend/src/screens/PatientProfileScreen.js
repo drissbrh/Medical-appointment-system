@@ -12,11 +12,14 @@ import {
   UpdatePatientProfile,
 } from "../redux/actions/patientActions";
 import { PATIENT_UPDATE_PROFILE_RESET } from "../redux/constants/patientConstants";
+import axios from "axios";
 
 const PatientProfileScreen = () => {
+  const [image, setImage] = useState("profile");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -36,14 +39,40 @@ const PatientProfileScreen = () => {
     (state) => state.patientProfileUpdate
   );
   const { success } = patientProfileUpdate;
+  const handleUploadChange = (e) => {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  };
 
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/v1/upload", formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const handleModification = () => {
     dispatch(
-      UpdatePatientProfile(patientInfo._id, { name, email, newPassword })
+      UpdatePatientProfile(patientInfo._id, { image, name, email, newPassword })
     );
   };
 
@@ -66,7 +95,13 @@ const PatientProfileScreen = () => {
           {patientProfiler && (
             <>
               <div className="profile__details">
-                <img src={patientPic} alt="profile pic" />
+                <img
+                  src={
+                    patientProfiler.image ? patientProfiler.image : patientPic
+                  }
+                  alt="profile pic"
+                />
+                <input type="file" onChange={uploadFileHandler} />
                 <p>{patientProfiler.name}</p>
               </div>
               <>

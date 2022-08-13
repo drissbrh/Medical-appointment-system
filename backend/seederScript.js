@@ -28,6 +28,7 @@ const importData = async () => {
     await Speciality.deleteMany();
 
     await Speciality.insertMany(specialities);
+    await Doctor.insertMany(doctors);
     await Admin.insertMany(adminUser);
     await Patient.insertMany(patients);
 

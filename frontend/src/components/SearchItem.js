@@ -4,7 +4,16 @@ import doctor1 from "../assets/doc1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-const SearchItem = ({ key1, name, city, phone, address, spec, identity }) => {
+const SearchItem = ({
+  key1,
+  name,
+  docImage,
+  city,
+  phone,
+  address,
+  spec,
+  identity,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const patientLogin = useSelector((state) => state.patientLogin);
@@ -12,7 +21,7 @@ const SearchItem = ({ key1, name, city, phone, address, spec, identity }) => {
 
   return (
     <div className="searchitem" key={key1}>
-      <img src={doctor1} alt="doctor_image" />
+      <img src={docImage ? docImage : doctor1} alt="doctor_image" />
       <div className="doc__infos">
         <div className="doc__name">
           <i className="fa-solid fa-signature"></i>
