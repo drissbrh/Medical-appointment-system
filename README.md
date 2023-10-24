@@ -5,7 +5,10 @@ Medical booking system is a web app made with MERN stack and Redux.It delivers a
 Its main goal is being able to find relevant doctors using search filters and take appointments. Doctors can also register their accounts to be visible on the platform.
 
 
-[Live Demo](https://medical-app-zsgh.onrender.com)
+[Live Demo](https://medical-app-zsgh.onrender.com
+
+**Disclaimer:** 
+Note that the live link demo take some seconds to load because it's hosted on a free tier hosting on Render.
 
 
 ### Version
